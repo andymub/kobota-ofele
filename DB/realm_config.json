@@ -1,7 +1,7 @@
 {
-    "app_id": "application-0-afqzd",
+    "app_id": "kobota_apps-qxrsl",
     "config_version": 20210101,
-    "name": "Application-0",
+    "name": "Kobota_Apps",
     "location": "DE-FF",
     "provider_region": "aws-eu-central-1",
     "deployment_model": "LOCAL"

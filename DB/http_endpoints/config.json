@@ -23,7 +23,7 @@
     },
     {
         "route": "/updateUser",
-        "http_method": "POST",
+        "http_method": "PUT",
         "function_name": "updateUser",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,

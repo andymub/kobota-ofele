@@ -6,8 +6,17 @@ exports = async function(userToUpdate, IdOldUsers) {
 
         // Vérifier si IdOldUsers est une chaîne de 24 caractères hexadécimaux
         // Vérifier si IdOldUsers est une chaîne de 24 caractères
+        // Initialize an empty list to store characters
+        const characterList = [];
+
+        // Iterate over each character in IdOldUsers and add it to the list
+        for (let i = 0; i < IdOldUsers.length; i++) {
+            characterList.push(IdOldUsers[i]);
+        }
+
+        // Check if IdOldUsers is a string of 24 characters
         if (IdOldUsers.length !== 24) {
-            throw new Error(`Invalid ObjectId. Length is ${IdOldUsers.length}`);
+            throw new Error(`Invalid ObjectId. Length is ${IdOldUsers.length}. Character list: ${characterList.join(', ')}`);
         }
 
         // Convertir IdOldUsers en ObjectId

@@ -11,10 +11,10 @@ exports = async function({ query, headers, body }, response) {
         if (existingUser) {
             if (existingUser.user_name === newUser.user_name) {
                 response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-                response.setBody({ message: "Cet utilisateur existe déjà." });
+                response.setBody(JSON.stringify({ message: "Cet utilisateur existe déjà." }));
             } else if (existingUser.email === newUser.email) {
                 response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-                response.setBody({ message: "Cet email est déjà utilisé." });
+                response.setBody(JSON.stringify({ message: "Cet email est déjà utilisé." }));
             }
         } else {
             // Insérer le nouvel utilisateur dans la collection "Users"
@@ -22,14 +22,14 @@ exports = async function({ query, headers, body }, response) {
 
             // Vérifier si l'insertion a réussi
             if (insertResult.insertedId) {
-                response.setBody({ message: "Utilisateur créé avec succès." });
+                response.setBody(JSON.stringify({ message: "Utilisateur créé avec succès." }));
             } else {
                 response.setStatusCode(500); // Code de réponse HTTP 500 pour une erreur interne du serveur
-                response.setBody({ message: "Échec de la création de l'utilisateur." });
+                response.setBody(JSON.stringify({ message: "Échec de la création de l'utilisateur." }));
             }
         }
     } catch (error) {
         response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-        response.setBody({ message: `Erreur lors du traitement de la requête : ${error.message}` });
+        response.setBody(JSON.stringify({ message: `Erreur lors du traitement de la requête : ${error.message}` }));
     }
 };

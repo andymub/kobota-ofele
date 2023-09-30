@@ -1,11 +1,14 @@
 exports = async function(userToUpdate, IdOldUsers) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+    const ObjectId = BSON.ObjectId;
+    // Convertir IdOldUsers en ObjectId
+const idOldUsersObjectId = ObjectId(IdOldUsers);
 
     try {
         // Check if the provided IdOldUsers is a valid ObjectId (hexadecimal string)
- if (IdOldUsers.length !== 24) {
-    throw new Error(`Invalid ObjectId. ${IdOldUsers.length}`);
-}
+      if (!/^[0-9a-fA-F]{24}$/.test(idOldUsersObjectId)) {
+    throw new Error("Invalid ObjectId.");
+      }
 
 
 
@@ -48,8 +51,9 @@ exports = async function(userToUpdate, IdOldUsers) {
         if (new_password !== null && new_password !== "") {
             updateData["passe"] = new_password;
         }
- // Mettre à jour l'utilisateur dans la collection "Users" en utilisant l'IdOldUsers
-        const updateResult = await usersCollection.updateOne({ _id: BSON.ObjectId(IdOldUsers) }, { $set: updateData });
+ // Mettre à jour l'utilisateur dans la collection "Users" en utilisant l'IdOldUsers converti
+const updateResult = await usersCollection.updateOne({ _id: idOldUsersObjectId }, { $set: updateData });
+
 
         if (updateResult.modifiedCount === 1) {
             // Find and return the updated user document

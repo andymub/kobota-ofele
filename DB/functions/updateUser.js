@@ -5,6 +5,7 @@ exports = async function(userToUpdate) {
     const {
         user_name,
         new_address,
+        new_email,
         new_function,
         new_roles,
         new_validation_acces,
@@ -17,6 +18,10 @@ exports = async function(userToUpdate) {
     // Vérifier chaque champ et les inclure s'ils ne sont pas vides ou nuls
     if (new_address !== null && new_address !== "") {
         updateData["adress"] = new_address;
+    }
+
+    if (new_email !== null && new_email !== "") {
+        updateData["email"] = new_email;
     }
 
     if (new_function !== null && new_function !== "") {

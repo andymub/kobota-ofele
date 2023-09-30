@@ -16,7 +16,7 @@ exports = async function() {
         fonction: "fonction_de_l'utilisateur",
         validation_acces: true, // Converti en booléen
         work_adress: "adresse_de_travail",
-        roles: "rôle_de_l'utilisateur"
+        roles: "rôle_de_l'utilisateur" 
     };
 
     // Insérer le nouvel utilisateur dans la collection "Users"

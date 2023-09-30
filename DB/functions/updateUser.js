@@ -3,7 +3,7 @@ exports = async function(userToUpdate, IdOldUsers) {
 
     try {
         // Check if the provided IdOldUsers is a valid ObjectId (hexadecimal string)
-        if (!/^[0-9a-fA-F]{26}$/.test(IdOldUsers)) {
+       if (IdOldUsers.length !== 24) {
             throw new Error("Invalid ObjectId.");
         }
 

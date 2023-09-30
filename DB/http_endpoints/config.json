@@ -1,7 +1,7 @@
 [
     {
         "route": "/createUser",
-        "http_method": "GET",
+        "http_method": "POST",
         "function_name": "createUser",
         "validation_method": "NO_VALIDATION",
         "respond_result": false,

@@ -5,8 +5,9 @@ exports = async function(userToUpdate, IdOldUsers) {
     try {IdOldUsers = IdOldUsers.toString();
 
         // Vérifier si IdOldUsers est une chaîne de 24 caractères hexadécimaux
-        if (!/^[0-9a-fA-F]{24}$/.test(IdOldUsers)) {
-            throw new Error("Invalid ObjectId.");
+        // Vérifier si IdOldUsers est une chaîne de 24 caractères
+        if (IdOldUsers.length !== 24) {
+            throw new Error(`Invalid ObjectId. Length is ${IdOldUsers.length}`);
         }
 
         // Convertir IdOldUsers en ObjectId

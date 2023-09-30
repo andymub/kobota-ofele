@@ -1,5 +1,10 @@
-exports = async function(userToUpdate) {
+exports = async function(userToUpdate, IdOldUsers) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+
+    // Check if the provided IdOldUsers is a valid ObjectId
+    if (!BSON.ObjectId.isValid(IdOldUsers)) {
+        return "Invalid ObjectId.";
+    }
 
     // Extraire les valeurs des arguments passés
     const {
@@ -40,11 +45,13 @@ exports = async function(userToUpdate) {
         updateData["passe"] = new_password;
     }
 
-    // Mettre à jour l'utilisateur dans la collection "Users"
-    const updateResult = await usersCollection.updateOne({ user_name: user_name }, { $set: updateData });
+    // Mettre à jour l'utilisateur dans la collection "Users" en utilisant l'IdOldUsers
+    const updateResult = await usersCollection.updateOne({ _id: BSON.ObjectId(IdOldUsers) }, { $set: updateData });
 
     if (updateResult.modifiedCount === 1) {
-        return "Utilisateur mis à jour avec succès.";
+        // Find and return the updated user document
+        const updatedUser = await usersCollection.findOne({ _id: BSON.ObjectId(IdOldUsers) });
+        return updatedUser;
     } else {
         return "Échec de la mise à jour de l'utilisateur.";
     }

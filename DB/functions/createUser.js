@@ -1,4 +1,4 @@
-exports = async function({ body }) {
+exports = async function({ query, headers, body }, response) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
@@ -10,9 +10,11 @@ exports = async function({ body }) {
 
         if (existingUser) {
             if (existingUser.user_name === newUser.user_name) {
-                return "Cet utilisateur existe déjà.";
+                response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
+                return response.send("Cet utilisateur existe déjà.");
             } else if (existingUser.email === newUser.email) {
-                return "Cet email est déjà utilisé.";
+                response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
+                return response.send("Cet email est déjà utilisé.");
             }
         } else {
             // Insérer le nouvel utilisateur dans la collection "Users"
@@ -20,12 +22,14 @@ exports = async function({ body }) {
 
             // Vérifier si l'insertion a réussi
             if (insertResult.insertedId) {
-                return "Utilisateur créé avec succès.";
+                return response.send("Utilisateur créé avec succès.");
             } else {
-                return "Échec de la création de l'utilisateur.";
+                response.setStatusCode(500); // Code de réponse HTTP 500 pour une erreur interne du serveur
+                return response.send("Échec de la création de l'utilisateur.");
             }
         }
     } catch (error) {
-        return `Erreur lors du traitement de la requête : ${error.message}`;
+        response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
+        return response.send(`Erreur lors du traitement de la requête : ${error.message}`);
     }
 };

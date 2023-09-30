@@ -3,9 +3,10 @@ exports = async function(userToUpdate, IdOldUsers) {
 
     try {
         // Check if the provided IdOldUsers is a valid ObjectId (hexadecimal string)
-       if (IdOldUsers.length !== 24) {
-            throw new Error("Invalid ObjectId.");
-        }
+      if (IdOldUsers.length !== 24) {
+    throw new Error(`Invalid ObjectId. ${IdOldUsers.length}`);
+}
+
 
         // Extraire les valeurs des arguments passés
         const {

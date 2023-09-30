@@ -6,7 +6,13 @@
         "disable_arg_logs": true
     },
     {
-        "name": "list_all_users",
+        "name": "listAllUsers",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "updateUser",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true

@@ -1,73 +1,52 @@
-exports = async function(userToUpdate, IdOldUsers) {
+exports = async function(userToUpdate, nameOldUsers) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
     const ObjectId = BSON.ObjectId;
 
-    try {IdOldUsers = IdOldUsers.toString();
+    try {
+        // Convert nameOldUsers to a string
+        nameOldUsers = nameOldUsers.toString();
 
-        // Vérifier si IdOldUsers est une chaîne de 24 caractères hexadécimaux
-        // Vérifier si IdOldUsers est une chaîne de 24 caractères
-        // Initialize an empty list to store characters
-        const characterList = [];
+        // Convert userToUpdate to an object
+        userToUpdate = JSON.parse(userToUpdate);
 
-        // Iterate over each character in IdOldUsers and add it to the list
-        for (let i = 0; i < IdOldUsers.length; i++) {
-            characterList.push(IdOldUsers[i]);
-        }
-
-        // Check if IdOldUsers is a string of 24 characters
-        if (IdOldUsers.length !== 24) {
-            throw new Error(`Invalid ObjectId. Length is ${IdOldUsers.length}. Character list: ${characterList.join(', ')}`);
-        }
-
-        // Convertir IdOldUsers en ObjectId
-        const idOldUsersObjectId = new ObjectId(IdOldUsers);
-
-        // Extraire les valeurs des arguments passés
-        const {
-            user_name,
-            new_address,
-            new_email,
-            new_function,
-            new_roles,
-            new_validation_acces,
-            new_password
-        } = userToUpdate;
-
-        // Définir les modifications à apporter
+        // Define the update data based on userToUpdate
         const updateData = {};
 
-        // Vérifier chaque champ et les inclure s'ils ne sont pas vides ou nuls
-        if (new_address !== null && new_address !== "") {
-            updateData["adress"] = new_address;
+        // Extract fields from userToUpdate and updateData if they are not empty
+        if (userToUpdate.new_address) {
+            updateData["adress"] = userToUpdate.new_address;
         }
 
-        if (new_email !== null && new_email !== "") {
-            updateData["email"] = new_email;
+        if (userToUpdate.new_email) {
+            updateData["email"] = userToUpdate.new_email;
         }
 
-        if (new_function !== null && new_function !== "") {
-            updateData["fonction"] = new_function;
+        if (userToUpdate.new_function) {
+            updateData["fonction"] = userToUpdate.new_function;
         }
 
-        if (new_roles !== null && new_roles !== "") {
-            updateData["roles"] = new_roles;
+        if (userToUpdate.new_roles) {
+            updateData["roles"] = userToUpdate.new_roles;
         }
 
-        if (new_validation_acces !== null && new_validation_acces !== "") {
-            updateData["validation_acces"] = new_validation_acces;
+        if (userToUpdate.new_validation_acces !== undefined) {
+            updateData["validation_acces"] = userToUpdate.new_validation_acces;
         }
 
-        if (new_password !== null && new_password !== "") {
-            updateData["passe"] = new_password;
+        if (userToUpdate.new_password) {
+            updateData["passe"] = userToUpdate.new_password;
         }
 
-        // Mettre à jour l'utilisateur dans la collection "Users" en utilisant l'IdOldUsers converti
-        const updateResult = await usersCollection.updateOne({ _id: idOldUsersObjectId }, { $set: updateData });
+        // Update the user document in the "Users" collection based on user_name
+        const updateResult = await usersCollection.updateOne(
+            { user_name: nameOldUsers },
+            { $set: updateData }
+        );
 
         if (updateResult.modifiedCount === 1) {
-            // Trouver et renvoyer le document utilisateur mis à jour
-            const updatedUser = await usersCollection.findOne({ _id: idOldUsersObjectId });
-            return `L'utilisateur "${updatedUser.user_name}" a été mis à jour avec succès.`;
+            // Find and return the updated user document
+            const updatedUser = await usersCollection.findOne({ user_name: userToUpdate.user_name });
+            return updatedUser;
         } else {
             throw new Error("Échec de la mise à jour de l'utilisateur. Veuillez vérifier les données fournies.");
         }

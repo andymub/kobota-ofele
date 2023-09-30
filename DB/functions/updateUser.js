@@ -2,7 +2,8 @@ exports = async function(userToUpdate, IdOldUsers) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
     const ObjectId = BSON.ObjectId;
 
-    try {
+    try {IdOldUsers = IdOldUsers.toString();
+
         // Vérifier si IdOldUsers est une chaîne de 24 caractères hexadécimaux
         if (!/^[0-9a-fA-F]{24}$/.test(IdOldUsers)) {
             throw new Error("Invalid ObjectId.");

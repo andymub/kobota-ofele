@@ -12,7 +12,7 @@
     },
     {
         "route": "/listAllUsers",
-        "http_method": "GET",
+        "http_method": "POST",
         "function_name": "listAllUsers",
         "validation_method": "NO_VALIDATION",
         "respond_result": false,

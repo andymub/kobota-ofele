@@ -1,13 +1,11 @@
 exports = async function() {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-    // Le nom d'utilisateur du nouvel utilisateur
-    const usernameToInsert = "Alice42"; // Remplacez par le nom d'utilisateur que vous souhaitez insérer
-
-    // Données du nouvel utilisateur à insérer, y compris l'e-mail
+    // Les données du nouvel utilisateur à insérer
     const newUser = {
-        user_name: usernameToInsert,
+        user_name: "Alice77", // Remplacez par le nom d'utilisateur que vous souhaitez insérer
         passe: "mot_de_passe",
+        email: "aliceTest@gmail.com", // Remplacez par l'email que vous souhaitez insérer
         adress: {
             province: "nom_de_la_province",
             territoire: "nom_du_territoire",
@@ -19,11 +17,19 @@ exports = async function() {
         fonction: "fonction_de_l'utilisateur",
         validation_acces: true, // Converti en booléen
         work_adress: "adresse_de_travail",
-        roles: "rôle_de_l'utilisateur",
-        email: "aliceTest@gmail.com" // Champ email ajouté
+        roles: "rôle_de_l'utilisateur"
     };
 
-    try {
+    // Vérifier si un utilisateur avec le même nom d'utilisateur ou le même email existe déjà
+    const existingUser = await usersCollection.findOne({ $or: [{ user_name: newUser.user_name }, { email: newUser.email }] });
+
+    if (existingUser) {
+        if (existingUser.user_name === newUser.user_name) {
+            return "Cet utilisateur existe déjà.";
+        } else if (existingUser.email === newUser.email) {
+            return "Cet email est déjà utilisé.";
+        }
+    } else {
         // Insérer le nouvel utilisateur dans la collection "Users"
         const insertResult = await usersCollection.insertOne(newUser);
 
@@ -33,8 +39,5 @@ exports = async function() {
         } else {
             return "Échec de la création de l'utilisateur.";
         }
-    } catch (error) {
-        // En cas d'erreur, renvoyer un message d'erreur détaillé
-        return `Erreur lors de la création de l'utilisateur : ${error.message}`;
     }
 };

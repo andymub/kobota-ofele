@@ -1,14 +1,13 @@
-const { ObjectId } = require('mongodb');
-
 exports = async function(userToUpdate, IdOldUsers) {
-    const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+    const mongodb = context.services.get("mongodb-atlas");
+    const usersCollection = mongodb.db("kobotaDB").collection("Users");
 
     try {
         // Convertir IdOldUsers en ObjectId
-        const idOldUsersObjectId = new ObjectId(IdOldUsers);
+        const idOldUsersObjectId = BSON.ObjectId(IdOldUsers);
 
         // Vérifier si IdOldUsers est un ObjectId valide
-        if (!ObjectId.isValid(idOldUsersObjectId)) {
+        if (!/^[0-9a-fA-F]{24}$/.test(idOldUsersObjectId)) {
             throw new Error("Invalid ObjectId.");
         }
 

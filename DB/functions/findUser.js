@@ -12,8 +12,8 @@ exports = async function(name) {
             // Si un utilisateur correspondant est trouvé, le retourner
             return user;
         } else {
-            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur
-            return { message: "Utilisateur non trouvé" };
+            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur avec le nom entre astérisques
+            return { message: `Utilisateur *${name}* non trouvé` };
         }
     } catch (error) {
         // En cas d'erreur, retourner un message d'erreur

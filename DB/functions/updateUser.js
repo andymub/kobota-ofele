@@ -3,16 +3,16 @@ exports = async function(userToUpdate, nameOldUsers) {
     const ObjectId = BSON.ObjectId;
 
     try {
-        // Convert nameOldUsers to a string
+        // Convertir nameOldUsers en chaîne de caractères
         nameOldUsers = nameOldUsers.toString();
 
-        // Convert userToUpdate to an object
+        // Convertir userToUpdate en objet
         userToUpdate = JSON.parse(userToUpdate);
 
-        // Define the update data based on userToUpdate
+        // Définir les données de mise à jour en fonction de userToUpdate
         const updateData = {};
 
-        // Extract fields from userToUpdate and updateData if they are not empty
+        // Extraire les champs de userToUpdate et de updateData s'ils ne sont pas vides
         if (userToUpdate.new_address) {
             updateData["adress"] = userToUpdate.new_address;
         }
@@ -37,14 +37,14 @@ exports = async function(userToUpdate, nameOldUsers) {
             updateData["passe"] = userToUpdate.new_password;
         }
 
-        // Update the user document in the "Users" collection based on user_name
+        // Mettre à jour le document utilisateur dans la collection "Users" en utilisant user_name
         const updateResult = await usersCollection.updateOne(
             { user_name: nameOldUsers },
             { $set: updateData }
         );
 
         if (updateResult.modifiedCount === 1) {
-            // Find and return the updated user document
+            // Trouver et retourner le document utilisateur mis à jour
             const updatedUser = await usersCollection.findOne({ user_name: userToUpdate.user_name });
             return updatedUser;
         } else {

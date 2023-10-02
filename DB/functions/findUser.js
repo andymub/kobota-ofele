@@ -3,6 +3,9 @@ exports = async function(name) {
 
     try {
         // Vérifier si le paramètre "name" est une chaîne de caractères
+          // Convertir "name" en une chaîne de caractères si ce n'est pas déjà le cas
+        name = name.toString();
+
         if (typeof name !== 'string') {
             throw new Error("Le paramètre 'name' doit être une chaîne de caractères.");
         }

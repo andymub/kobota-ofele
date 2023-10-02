@@ -2,6 +2,9 @@ exports = async function(name) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
+        // Assurer que le paramètre "name" est une chaîne de caractères
+        name = name.toString();
+
         // Afficher le nom recherché
         console.log("Recherche de l'utilisateur : " + name);
 

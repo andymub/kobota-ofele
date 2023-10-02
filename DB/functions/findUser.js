@@ -1,4 +1,4 @@
-exports = async function({ query, headers, body, response }) {
+exports = async function({ query }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
@@ -15,18 +15,15 @@ exports = async function({ query, headers, body, response }) {
         const user = await usersCollection.findOne({ user_name: userName });
 
         if (user) {
-            // Si un utilisateur correspondant est trouvé, le retourner dans la réponse
-            response.setStatusCode(200);
-            response.setBody(user);
+            // Si un utilisateur correspondant est trouvé, le retourner
+            return user;
         } else {
             // Si aucun utilisateur n'est trouvé, retourner un message d'erreur avec le nom entre astérisques
-            response.setStatusCode(404);
-            response.setBody({ message: `Utilisateur *${userName}* non trouvé` });
+            return { message: `Utilisateur *${userName}* non trouvé` };
         }
     } catch (error) {
-        // En cas d'erreur, retourner un message d'erreur dans la réponse
+        // En cas d'erreur, retourner un message d'erreur
         console.error("Erreur : " + error.message);
-        response.setStatusCode(500);
-        response.setBody({ message: error.message });
+        return { message: error.message };
     }
 };

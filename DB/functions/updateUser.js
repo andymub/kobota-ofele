@@ -5,8 +5,9 @@ exports = async function({ body }) {
         // Convertir le corps de la requête JSON en objet JavaScript
         const { userToUpdateJSON, nameOldUsers } = JSON.parse(body.text());
 
-        // Convertir nameOldUsers en chaîne de caractères
-        const nameOldUserString = nameOldUsers.toString();
+       
+        // Assurer que nameOldUsers est défini avant d'appeler toString
+        const nameOldUserString = nameOldUsers ? nameOldUsers.toString() : null;
 
         // Convertir userToUpdateJSON en objet
         const userToUpdate = JSON.parse(userToUpdateJSON);

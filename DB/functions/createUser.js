@@ -1,35 +1,32 @@
-exports = async function({ query, headers, body }, response) {
+exports = async function({ query, headers, body, response }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
-        // Convertir le corps de la requête JSON en objet JavaScript
-        const newUser = JSON.parse(body.text());
+        // Extraire le nom de l'utilisateur à partir des paramètres de requête (query)
+        const name = query.name;
 
-        // Vérifier si un utilisateur avec le même nom d'utilisateur ou le même email existe déjà
-        const existingUser = await usersCollection.findOne({ $or: [{ user_name: newUser.user_name }, { email: newUser.email }] });
+        // Convertir "name" en une chaîne de caractères si ce n'est pas déjà le cas
+        const userName = name.toString();
 
-        if (existingUser) {
-            if (existingUser.user_name === newUser.user_name) {
-                response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-                response.setBody(JSON.stringify({ message: "Cet utilisateur existe déjà." }));
-            } else if (existingUser.email === newUser.email) {
-                response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-                response.setBody(JSON.stringify({ message: "Cet email est déjà utilisé." }));
-            }
+        // Afficher le nom recherché
+        console.log("Recherche de l'utilisateur : " + userName);
+
+        // Effectuer la recherche par nom dans la collection "Users"
+        const user = await usersCollection.findOne({ user_name: userName });
+
+        if (user) {
+            // Si un utilisateur correspondant est trouvé, le retourner dans la réponse
+            response.setStatusCode(200);
+            response.setBody(user);
         } else {
-            // Insérer le nouvel utilisateur dans la collection "Users"
-            const insertResult = await usersCollection.insertOne(newUser);
-
-            // Vérifier si l'insertion a réussi
-            if (insertResult.insertedId) {
-                response.setBody(JSON.stringify({ message: "Utilisateur créé avec succès." }));
-            } else {
-                response.setStatusCode(500); // Code de réponse HTTP 500 pour une erreur interne du serveur
-                response.setBody(JSON.stringify({ message: "Échec de la création de l'utilisateur." }));
-            }
+            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur avec le nom entre astérisques
+            response.setStatusCode(404);
+            response.setBody({ message: `Utilisateur *${userName}* non trouvé` });
         }
     } catch (error) {
-        response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
-        response.setBody(JSON.stringify({ message: `Erreur lors du traitement de la requête : ${error.message}` }));
+        // En cas d'erreur, retourner un message d'erreur dans la réponse
+        console.error("Erreur : " + error.message);
+        response.setStatusCode(500);
+        response.setBody({ message: error.message });
     }
 };

@@ -1,10 +1,12 @@
-exports = async function(userToUpdateJSON, nameOldUsers) {
+exports = async function({ body }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
-    const ObjectId = BSON.ObjectId;
 
     try {
+        // Convertir le corps de la requête JSON en objet JavaScript
+        const { userToUpdateJSON, nameOldUsers } = JSON.parse(body.text());
+
         // Convertir nameOldUsers en chaîne de caractères
-        nameOldUsers = nameOldUsers.toString();
+        const nameOldUserString = nameOldUsers.toString();
 
         // Convertir userToUpdateJSON en objet
         const userToUpdate = JSON.parse(userToUpdateJSON);
@@ -39,7 +41,7 @@ exports = async function(userToUpdateJSON, nameOldUsers) {
 
         // Mettre à jour le document utilisateur dans la collection "Users" en utilisant user_name
         const updateResult = await usersCollection.updateOne(
-            { user_name: nameOldUsers },
+            { user_name: nameOldUserString },
             { $set: updateData }
         );
 

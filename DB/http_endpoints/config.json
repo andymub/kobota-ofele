@@ -34,7 +34,7 @@
     },
     {
         "route": "/findUser",
-        "http_method": "GET",
+        "http_method": "POST",
         "function_name": "findUser",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,

@@ -47,11 +47,11 @@ exports = async function(phone, updatedData) {
         );
 
         if (updateResult.modifiedCount === 1) {
-            // Si la mise à jour est réussie, retourner un message de succès
-            return { message: "Mise à jour réussie" };
+            // Si la mise à jour est réussie, retourner un message de succès avec le numéro de téléphone
+            return { message: `Mise à jour réussie pour l'utilisateur avec le numéro de téléphone : ${phone}` };
         } else {
-            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur
-             return { message: `Utilisateur non trouvé avec le numéro de téléphone : ${phone}` };
+            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur avec le numéro de téléphone recherché
+            return { message: `Utilisateur non trouvé avec le numéro de téléphone : ${phone}` };
         }
     } catch (error) {
         // En cas d'erreur, retourner un message d'erreur

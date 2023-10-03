@@ -46,5 +46,10 @@
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "updateEstablishment",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

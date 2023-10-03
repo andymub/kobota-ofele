@@ -1,44 +1,23 @@
-exports = async function(phone, updatedData) {
+exports = async function({ body }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
-        // Convertir le numéro de téléphone en chaîne de caractères
-        phone = phone.toString();
+        // Extraire les données de la requête JSON
+        const requestData = JSON.parse(body.text());
+
+        // Extraire le numéro de téléphone de la requête JSON
+        const phone = requestData.phone.toString();
+
+        // Extraire les données de mise à jour de la requête JSON
+        const updatedData = requestData.updatedData;
 
         // Définir les données de mise à jour en fonction de updatedData
-        const updateData = {};
-
-        if (updatedData.user_name != null && updatedData.user_name !== "") {
-            updateData.user_name = updatedData.user_name;
-        }
-
-        if (updatedData.passe != null && updatedData.passe !== "") {
-            updateData.passe = updatedData.passe;
-        }
-
-        if (updatedData.email != null && updatedData.email !== "") {
-            updateData.email = updatedData.email;
-        }
-
-        if (updatedData.adress != null) {
-            updateData.adress = updatedData.adress;
-        }
-
-        if (updatedData.fonction != null && updatedData.fonction !== "") {
-            updateData.fonction = updatedData.fonction;
-        }
-
-        if (updatedData.validation_acces !== undefined) {
-            updateData.validation_acces = updatedData.validation_acces;
-        }
-
-        if (updatedData.work_adress != null && updatedData.work_adress !== "") {
-            updateData.work_adress = updatedData.work_adress;
-        }
-
-        if (updatedData.roles != null && updatedData.roles !== "") {
-            updateData.roles = updatedData.roles;
-        }
+        const updateData = {
+            // Mettez ici les champs que vous souhaitez mettre à jour
+            user_name: updatedData.user_name,
+            passe: updatedData.passe,
+            // ... autres champs
+        };
 
         // Mettre à jour l'utilisateur dans la collection en utilisant le numéro de téléphone
         const updateResult = await usersCollection.updateOne(
@@ -47,7 +26,7 @@ exports = async function(phone, updatedData) {
         );
 
         if (updateResult.modifiedCount === 1) {
-            // Si la mise à jour est réussie, retourner un message de succès avec le numéro de téléphone
+            // Si la mise à jour est réussie, retourner un message de succès
             return { message: `Mise à jour réussie pour l'utilisateur avec le numéro de téléphone : ${phone}` };
         } else {
             // Si aucun utilisateur n'est trouvé, retourner un message d'erreur avec le numéro de téléphone recherché

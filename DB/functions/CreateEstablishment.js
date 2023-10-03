@@ -1,5 +1,5 @@
 exports = async function({ query, headers, body }, response) {
-    const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("establishment");
+    const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
 
     try {
         // Convertir le corps de la requête JSON en objet JavaScript

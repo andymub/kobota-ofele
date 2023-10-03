@@ -22,5 +22,11 @@
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "findUserByPhone",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
     }
 ]

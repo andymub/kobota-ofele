@@ -1,59 +1,61 @@
-exports = async function({ body }) {
+exports = async function(phone, updatedData) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
-        // Convertir le corps de la requête JSON en objet JavaScript
-        const { userToUpdateJSON, nameOldUsers } = JSON.parse(body.text());
+        // Convertir le numéro de téléphone en chaîne de caractères
+        phone = phone.toString();
 
-       
-        // Assurer que nameOldUsers est défini avant d'appeler toString
-        const nameOldUserString = nameOldUsers ? nameOldUsers.toString() : null;
-
-        // Convertir userToUpdateJSON en objet
-        const userToUpdate = JSON.parse(userToUpdateJSON);
-
-        // Définir les données de mise à jour en fonction de userToUpdate
+        // Définir les données de mise à jour en fonction de updatedData
         const updateData = {};
 
-        // Extraire les champs de userToUpdate et de updateData s'ils ne sont pas vides
-        if (userToUpdate.new_address) {
-            updateData["adress"] = userToUpdate.new_address;
+        if (updatedData.user_name != null && updatedData.user_name !== "") {
+            updateData.user_name = updatedData.user_name;
         }
 
-        if (userToUpdate.new_email) {
-            updateData["email"] = userToUpdate.new_email;
+        if (updatedData.passe != null && updatedData.passe !== "") {
+            updateData.passe = updatedData.passe;
         }
 
-        if (userToUpdate.new_function) {
-            updateData["fonction"] = userToUpdate.new_function;
+        if (updatedData.email != null && updatedData.email !== "") {
+            updateData.email = updatedData.email;
         }
 
-        if (userToUpdate.new_roles) {
-            updateData["roles"] = userToUpdate.new_roles;
+        if (updatedData.adress != null) {
+            updateData.adress = updatedData.adress;
         }
 
-        if (userToUpdate.new_validation_acces !== undefined) {
-            updateData["validation_acces"] = userToUpdate.new_validation_acces;
+        if (updatedData.fonction != null && updatedData.fonction !== "") {
+            updateData.fonction = updatedData.fonction;
         }
 
-        if (userToUpdate.new_password) {
-            updateData["passe"] = userToUpdate.new_password;
+        if (updatedData.validation_acces !== undefined) {
+            updateData.validation_acces = updatedData.validation_acces;
         }
 
-        // Mettre à jour le document utilisateur dans la collection "Users" en utilisant user_name
+        if (updatedData.work_adress != null && updatedData.work_adress !== "") {
+            updateData.work_adress = updatedData.work_adress;
+        }
+
+        if (updatedData.roles != null && updatedData.roles !== "") {
+            updateData.roles = updatedData.roles;
+        }
+
+        // Mettre à jour l'utilisateur dans la collection en utilisant le numéro de téléphone
         const updateResult = await usersCollection.updateOne(
-            { user_name: nameOldUserString },
+            { phone: phone },
             { $set: updateData }
         );
 
         if (updateResult.modifiedCount === 1) {
-            // Trouver et retourner le document utilisateur mis à jour
-            const updatedUser = await usersCollection.findOne({ user_name: userToUpdate.user_name });
-            return updatedUser;
+            // Si la mise à jour est réussie, retourner un message de succès
+            return { message: "Mise à jour réussie" };
         } else {
-            throw new Error("Échec de la mise à jour de l'utilisateur. Veuillez vérifier les données fournies.");
+            // Si aucun utilisateur n'est trouvé, retourner un message d'erreur
+            return { message: "Utilisateur non trouvé" };
         }
     } catch (error) {
-        return error.message;
+        // En cas d'erreur, retourner un message d'erreur
+        console.error("Erreur : " + error.message);
+        return { message: error.message };
     }
 };

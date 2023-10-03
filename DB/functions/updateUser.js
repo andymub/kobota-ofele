@@ -51,7 +51,7 @@ exports = async function(phone, updatedData) {
             return { message: "Mise à jour réussie" };
         } else {
             // Si aucun utilisateur n'est trouvé, retourner un message d'erreur
-            return { message: "Utilisateur non trouvé" };
+             return { message: `Utilisateur non trouvé avec le numéro de téléphone : ${phone}` };
         }
     } catch (error) {
         // En cas d'erreur, retourner un message d'erreur

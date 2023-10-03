@@ -78,7 +78,7 @@
     },
     {
         "route": "/listAllEstablishment",
-        "http_method": "GET",
+        "http_method": "POST",
         "function_name": "listAllEstablishment",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,

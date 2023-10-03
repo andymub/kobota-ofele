@@ -1,18 +1,11 @@
-exports = async function(establishment_type) {
+exports = async function() {
     const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
 
     try {
-        // Créer une requête qui recherche des établissements en fonction du champ 'establishment_type'
-        const query = {};
+        // Utiliser la méthode find pour obtenir tous les documents de la collection
+        const allEstablishments = await establishmentCollection.find({}).toArray();
 
-        if (establishment_type) {
-            query.establishment_type = establishment_type;
-        }
-
-        // Utiliser la méthode find pour obtenir les documents correspondants à la requête
-        const establishments = await establishmentCollection.find(query).toArray();
-
-        return establishments;
+        return allEstablishments;
     } catch (error) {
         // En cas d'erreur, retourner un message d'erreur
         console.error("Erreur : " + error.message);

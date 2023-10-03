@@ -18,21 +18,7 @@ exports = async function({ body }) {
             updateData.hospital_name = updatedData.hospital_name;
         }
 
-        if (updatedData.adress != null) {
-            updateData.adress = updatedData.adress;
-        }
-
-        if (updatedData.contact != null) {
-            updateData.contact = updatedData.contact;
-        }
-
-        if (updatedData.services != null) {
-            updateData.services = updatedData.services;
-        }
-
-        if (updatedData.establishment_type != null && updatedData.establishment_type !== "") {
-            updateData.establishment_type = updatedData.establishment_type;
-        }
+        // ... (autres champs à mettre à jour)
 
         // Mettre à jour l'établissement dans la collection en utilisant le nom de l'établissement
         const updateResult = await establishmentCollection.updateOne(

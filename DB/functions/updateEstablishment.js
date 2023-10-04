@@ -2,14 +2,14 @@ exports = async function(updatedDocument) {
   const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
 
   try {
-    // Assurez-vous que le document contient un champ "_id" pour identifier le document à mettre à jour
-    if (!updatedDocument._id) {
-      return { message: "Le champ '_id' est manquant dans le document mis à jour." };
+    // Assurez-vous que le document contient le champ "establishment_name" pour l'identifier
+    if (!updatedDocument.establishment_name) {
+      return { message: "Le champ 'establishment_name' est manquant dans le document mis à jour." };
     }
 
-    // Mettre à jour le document dans la collection en utilisant son "_id"
+    // Mettre à jour le document dans la collection en utilisant son "establishment_name"
     const updateResult = await establishmentCollection.updateOne(
-      { _id: updatedDocument._id },
+      { establishment_name: updatedDocument.establishment_name },
       { $set: updatedDocument }
     );
 

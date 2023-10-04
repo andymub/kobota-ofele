@@ -1,7 +1,10 @@
 exports = async function({ body }) {
   try {
+    // Convertir le corps de la requête en une chaîne JSON valide
+    const requestBody = JSON.parse(body.text());
+
     // Extraire le champ 'establishment_name' du corps de la requête JSON
-    const establishmentName = body;
+    const establishmentName = requestBody.establishment_name;
 
     // Vérifier si le champ 'establishment_name' est présent
     if (!establishmentName) {

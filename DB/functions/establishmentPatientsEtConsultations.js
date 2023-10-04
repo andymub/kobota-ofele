@@ -27,7 +27,13 @@ exports = async function({ body }) {
       const consultationCount = listConsultations.length;
 
       // Liste du contenu de 'list_consultations'
-      const consultations = listConsultations.map(consultation => consultation.details);
+const consultations = listConsultations.map(consultation => {
+  return {
+    date: consultation.date,
+    patient_name: consultation.patient_name,
+    details: consultation.details
+  };
+});
 
       // Nombre de patients uniques dans 'list_consultations'
       const uniquePatients = new Set();

@@ -6,7 +6,7 @@ exports = async function({ body }) {
     const requestData = body;
 
     // Extraire le nom de l'établissement de la requête JSON
-    const establishmentName = requestData.establishmentName;
+    const establishmentName = requestData.establishment_name;
 
     // Extraire les données de mise à jour de la requête JSON
     const updatedData = requestData.updatedData;

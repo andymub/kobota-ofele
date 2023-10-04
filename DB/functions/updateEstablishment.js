@@ -2,10 +2,10 @@ exports = async function({ body }) {
   const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
 
   try {
-    // Déstructurez les données de la requête JSON
-    const { establishmentName, updatedData } = JSON.parse(body.text());
+    // Extraire les données du corps de la requête JSON
+    const { establishmentName, updatedData } = body;
 
-    // Vérifiez si les champs à mettre à jour ne sont pas vides ou nuls
+    // Vérifier si les champs à mettre à jour ne sont pas vides ou nuls
     const updateData = {};
 
     if (updatedData.establishment_name != null && updatedData.establishment_name !== "") {

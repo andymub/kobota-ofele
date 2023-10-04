@@ -1,45 +1,38 @@
-exports = async function(establishmentName) {
-  const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
-
+exports = async function({ body }) {
   try {
-    // Recherchez le document d'établissement par son nom
-    const establishment = await establishmentCollection.findOne({ establishment_name: establishmentName });
+    // Extraire le document depuis le corps de la requête
+    const document = body;
 
-    if (!establishment) {
+    // Vérifier si le document a le champ 'list_consultations'
+    if (document && document.list_consultations && Array.isArray(document.list_consultations)) {
+      const listConsultations = document.list_consultations;
+
+      // Nombre d'éléments dans la liste 'list_consultations'
+      const consultationCount = listConsultations.length;
+
+      // Liste du contenu de 'list_consultations'
+      const consultations = listConsultations.map(consultation => consultation.details);
+
+      // Nombre de patients uniques dans 'list_consultations'
+      const uniquePatients = new Set();
+      listConsultations.forEach(consultation => {
+        if (consultation.patient_name) {
+          uniquePatients.add(consultation.patient_name);
+        }
+      });
+      const uniquePatientCount = uniquePatients.size;
+
+      // Retourner les résultats
       return {
-        message: `Établissement non trouvé avec le nom : ${establishmentName}`,
-        consultationCount: 0,
-        consultations: [],
-        uniquePatientCount: 0
+        consultationCount: consultationCount,
+        consultations: consultations,
+        uniquePatientCount: uniquePatientCount
       };
+    } else {
+      return { message: "Le document ne contient pas de champ 'list_consultations' ou il n'est pas une liste." };
     }
-
-    const consultations = establishment.list_consultations || [];
-    const consultationCount = consultations.length;
-
-    // Créez un ensemble pour stocker les noms de patients uniques
-    const uniquePatients = new Set();
-
-    // Parcourez les consultations pour compter les patients uniques
-    for (const consultation of consultations) {
-      uniquePatients.add(consultation.patient_name);
-    }
-
-    const uniquePatientCount = uniquePatients.size;
-
-    return {
-      message: `Établissement trouvé avec le nom : ${establishmentName}`,
-      consultationCount: consultationCount,
-      consultations: consultations,
-      uniquePatientCount: uniquePatientCount
-    };
   } catch (error) {
     console.error("Erreur : " + error.message);
-    return {
-      message: "Une erreur s'est produite lors de la recherche de l'établissement.",
-      consultationCount: 0,
-      consultations: [],
-      uniquePatientCount: 0
-    };
+    return { message: "Une erreur s'est produite lors du traitement du document." };
   }
 };

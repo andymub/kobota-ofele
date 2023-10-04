@@ -1,4 +1,4 @@
-exports = async function({ body }) {
+exports = async function ({ body }) {
   try {
     // Convertir le corps de la requête en une chaîne JSON valide
     const requestBody = JSON.parse(body.text());
@@ -22,9 +22,6 @@ exports = async function({ body }) {
     // Vérifier si le document a le champ 'list_consultations'
     if (document.list_consultations && Array.isArray(document.list_consultations)) {
       const listConsultations = document.list_consultations;
-
-      // Nombre d'éléments dans la liste 'list_consultations'
-      const consultationCount = listConsultations.length;
 
       // Liste du contenu de 'list_consultations' avec date, patient_name et details
       const consultations = listConsultations.map(consultation => {
@@ -59,11 +56,8 @@ exports = async function({ body }) {
 
         // Retourner les résultats avec les clés modifiées
         return {
-          consultationCount: consultationCount,
-          consultations: consultations,
-          uniquePatientCount: uniquePatientCount,
-          pharmacySellCount: consultationCount, // Modification de la clé
-          pharmacy: pharmacy
+          pharmacySellCount: listPharmacy.length, // Nombre d'éléments dans la liste 'list_pharmacy'
+          pharmacy: pharmacy // Liste du contenu de 'list_pharmacy'
         };
       } else {
         return { message: "Le document ne contient pas de champ 'list_pharmacy' ou il n'est pas une liste." };

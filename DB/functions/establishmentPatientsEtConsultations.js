@@ -1,11 +1,7 @@
 exports = async function({ body }) {
   try {
-    // Vérifier si le corps de la requête contient un champ 'establishment_name'
-    if (!body.establishment_name) {
-      return { message: "Le champ 'establishment_name' est manquant dans la requête JSON." };
-    }
-
-    const establishmentName = body.establishment_name;
+    // Extraire le champ 'establishment_name' du corps de la requête JSON
+    const establishmentName = body;
 
     // Rechercher le document dans la collection en utilisant le nom de l'établissement
     const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");

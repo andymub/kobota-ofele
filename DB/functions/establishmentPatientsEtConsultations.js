@@ -1,7 +1,7 @@
 exports = async function({ body }) {
   try {
     // Extraire le document depuis le corps de la requête
-    const document = body;
+    const document = JSON.parse(body.text());
 
     // Vérifier si le document a le champ 'list_consultations'
     if (document && document.list_consultations && Array.isArray(document.list_consultations)) {

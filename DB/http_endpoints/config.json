@@ -88,7 +88,7 @@
         "return_type": "JSON"
     },
     {
-        "route": "/updateEstablishment",
+        "route": "/updateEstablishmentByName",
         "http_method": "POST",
         "function_name": "updateEstablishment",
         "validation_method": "NO_VALIDATION",

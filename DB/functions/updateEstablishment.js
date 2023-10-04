@@ -8,6 +8,14 @@ exports = async function({ body }) {
     // Extraire le nom de l'établissement de la requête JSON
     const establishmentName = requestData.establishment_name;
 
+    // Vérifier si le document avec le nom d'établissement existe
+    const existingDocument = await establishmentCollection.findOne({ establishment_name: establishmentName });
+
+    if (!existingDocument) {
+      // Si le document n'existe pas, retourner un message
+      return { message: `Établissement non trouvé avec le nom : ${establishmentName}` };
+    }
+
     // Extraire les données de mise à jour de la requête JSON
     const updatedData = requestData.updatedData;
 

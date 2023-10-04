@@ -1,10 +1,22 @@
 exports = async function({ body }) {
   try {
-    // Extraire le document depuis le corps de la requête
-    const document = JSON.parse(body.text());
+    // Vérifier si le corps de la requête contient un champ 'establishment_name'
+    if (!body.establishment_name) {
+      return { message: "Le champ 'establishment_name' est manquant dans la requête JSON." };
+    }
+
+    const establishmentName = body.establishment_name;
+
+    // Rechercher le document dans la collection en utilisant le nom de l'établissement
+    const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
+    const document = await establishmentCollection.findOne({ establishment_name: establishmentName });
+
+    if (!document) {
+      return { message: `Établissement non trouvé avec le nom : ${establishmentName}` };
+    }
 
     // Vérifier si le document a le champ 'list_consultations'
-    if (document && document.list_consultations && Array.isArray(document.list_consultations)) {
+    if (document.list_consultations && Array.isArray(document.list_consultations)) {
       const listConsultations = document.list_consultations;
 
       // Nombre d'éléments dans la liste 'list_consultations'

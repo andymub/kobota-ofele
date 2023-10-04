@@ -2,8 +2,14 @@ exports = async function({ body }) {
   const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
 
   try {
-    // Extraire les données du corps de la requête JSON
-    const { establishmentName, updatedData } = body;
+    // Extraire les données de la requête JSON
+    const requestData = body;
+
+    // Extraire le nom de l'établissement de la requête JSON
+    const establishmentName = requestData.establishmentName;
+
+    // Extraire les données de mise à jour de la requête JSON
+    const updatedData = requestData.updatedData;
 
     // Vérifier si les champs à mettre à jour ne sont pas vides ou nuls
     const updateData = {};

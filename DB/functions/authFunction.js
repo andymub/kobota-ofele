@@ -1,17 +1,29 @@
-exports = async function ({ username, passe }) {
+exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  // Recherche de l'utilisateur par nom d'utilisateur et mot de passe
-  const user = await usersCollection.findOne({ user_name: username, passe: passe });
+  try {
+    // Convertir le corps de la requête JSON en objet JavaScript
+    const requestBody = JSON.parse(body.text());
 
-  if (user) {
-    // Utilisateur trouvé, authentification réussie, retourner les données de l'utilisateur
-    return {
-      status: 'success',
-      user: user
-    };
-  } else {
-    // Utilisateur non trouvé, authentification échouée
-    return { status: 'fail' };
+    // Extraire le nom d'utilisateur et le mot de passe du corps de la requête
+    const username = requestBody.username;
+    const passe = requestBody.passe;
+
+    // Recherche de l'utilisateur par nom d'utilisateur et mot de passe
+    const user = await usersCollection.findOne({ user_name: username, passe: passe });
+
+    if (user) {
+      // Utilisateur trouvé, authentification réussie, retourner les données de l'utilisateur
+      return {
+        status: 'success',
+        user: user
+      };
+    } else {
+      // Utilisateur non trouvé, authentification échouée
+      return { status: 'fail' };
+    }
+  } catch (error) {
+    console.error("Erreur : " + error.message);
+    return { status: 'error' };
   }
 };

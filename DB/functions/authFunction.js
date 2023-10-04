@@ -7,10 +7,10 @@ exports = async function({ body }) {
 
     // Extraire le nom d'utilisateur et le mot de passe du corps de la requête
     const username = requestBody.username;
-    const passe = requestBody.passe;
+    const password = requestBody.password;
 
     // Recherche de l'utilisateur par nom d'utilisateur et mot de passe
-    const user = await usersCollection.findOne({ user_name: username, passe: passe });
+    const user = await usersCollection.findOne({ user_name: username, passe: password });
 
     if (user) {
       // Utilisateur trouvé, authentification réussie, retourner les données de l'utilisateur
@@ -24,6 +24,6 @@ exports = async function({ body }) {
     }
   } catch (error) {
     console.error("Erreur : " + error.message);
-    return { status: 'error' };
+    return { status: 'error', message: error.message }; // Retourner un message d'erreur
   }
 };

@@ -16,6 +16,7 @@ exports = async function({ body }) {
       return { message: `Établissement non trouvé avec le nom : ${establishmentName}` };
     }
 
+
     // Extraire les données de mise à jour de la requête JSON
     const updatedData = requestData.updatedData;
 

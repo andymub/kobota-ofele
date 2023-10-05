@@ -1,23 +1,33 @@
 exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+  const bcrypt = require('bcrypt'); // Utilisez bcrypt pour le cryptage des mots de passe
 
   try {
     // Convertir le corps de la requête JSON en objet JavaScript
     const requestBody = JSON.parse(body.text());
 
-    // Extraire le nom d'utilisateur et le mot de passe du corps de la requête
-    const username = requestBody.username;
+    // Extraire l'e-mail et le mot de passe du corps de la requête
+    const email = requestBody.email;
     const password = requestBody.password;
 
-    // Recherche de l'utilisateur par nom d'utilisateur et mot de passe
-    const user = await usersCollection.findOne({ user_name: username, passe: password });
+    // Rechercher l'utilisateur par e-mail
+    const user = await usersCollection.findOne({ email: email });
 
     if (user) {
-      // Utilisateur trouvé, authentification réussie, retourner les données de l'utilisateur
-      return {
-        status: 'success',
-        user: user
-      };
+      // Utilisateur trouvé, vérifier le mot de passe crypté
+      const isPasswordMatch = await bcrypt.compare(password, user.passe);
+
+      if (isPasswordMatch) {
+        // Authentification réussie, retourner les données de l'utilisateur
+        delete user.passe; // Supprimez le mot de passe de la réponse pour des raisons de sécurité
+        return {
+          status: 'success',
+          user: user
+        };
+      } else {
+        // Mot de passe incorrect, authentification échouée
+        return { status: 'fail' };
+      }
     } else {
       // Utilisateur non trouvé, authentification échouée
       return { status: 'fail' };

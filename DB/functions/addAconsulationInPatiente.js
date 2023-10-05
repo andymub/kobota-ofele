@@ -5,45 +5,33 @@ exports = async function({ body }) {
     // Convertir le corps de la requête JSON en objet JavaScript
     const requestBody = JSON.parse(body.text());
 
-    // Extraire les données de la requête
-    const patientName = requestBody.patient_name;
-    const date = requestBody.date;
-    const type = requestBody.type;
-    const hospital = requestBody.hospital;
-    const prescription = requestBody.prescription;
+    // Extraire le nom du patient de la requête JSON
+    const patientName = requestBody.name;
 
-    // Vérifier si le champ "statuts" est vide
-    const existingPatient = await patientCollection.findOne({ name: patientName, statuts: "" });
+    // Vérifier si le champ "statuts" est vide pour le patient spécifié
+    const patient = await patientCollection.findOne({ name: patientName, statuts: "" });
 
-    if (existingPatient) {
-      // Le patient existe et le champ "statuts" est vide, ajouter la consultation
-      const newConsultation = {
-        date: date,
-        type: type,
-        prescription: [
-          {
-            hospital: hospital,
-            prescription: prescription
-          }
-        ]
-      };
-
-      // Ajouter la nouvelle consultation à la liste des consultations
-      await patientCollection.updateOne(
-        { _id: existingPatient._id },
-        {
-          $push: {
-            consultations: newConsultation
-          }
-        }
-      );
-
-      return { status: 'success', message: 'Consultation ajoutée avec succès.' };
-    } else {
-      return { status: 'fail', message: 'Patient non trouvé ou le dossier est déjà clos.' };
+    if (!patient) {
+      return { status: "fail", message: "Le patient n'existe pas ou son dossier est déjà clôturé." };
     }
+
+    // Extraire les informations de consultation de la requête JSON
+    const consultationData = {
+      date: requestBody.date,
+      type: requestBody.type,
+      hospital: requestBody.hospital,
+      prescription: requestBody.prescription
+    };
+
+    // Ajouter la consultation au tableau "consultations" du patient
+    patient.consultations.push(consultationData);
+
+    // Mettre à jour le patient dans la base de données
+    await patientCollection.updateOne({ _id: patient._id }, { $set: { consultations: patient.consultations } });
+
+    return { status: "success", message: "Consultation ajoutée avec succès." };
   } catch (error) {
     console.error("Erreur : " + error.message);
-    return { status: 'error', message: 'Erreur lors du traitement de la requête.' };
+    return { status: "error", message: "Erreur lors du traitement de la requête : " + error.message };
   }
 };

@@ -1,6 +1,6 @@
 exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
-  const bcrypt = pm.globals.get('bcrypt'); // Utilisez bcrypt depuis la variable globale
+  const bcrypt = globals.get('bcrypt'); // Utilisez globals.get pour obtenir la bibliothèque "bcrypt"
 
   try {
     // Convertir le corps de la requête JSON en objet JavaScript
@@ -18,7 +18,7 @@ exports = async function({ body }) {
       const isPasswordMatch = await bcrypt.compare(password, user.passe);
 
       if (isPasswordMatch) {
-        // Authentification réussie, retourner les données de l'utilisateur (à l'exception du mot de passe)
+        // Authentification réussie, retourner les données de l'utilisateur
         delete user.passe; // Supprimez le mot de passe de la réponse pour des raisons de sécurité
         return {
           status: 'success',

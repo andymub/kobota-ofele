@@ -15,21 +15,39 @@ exports = async function({ body }) {
       return { status: "fail", message: "Le patient n'existe pas ou son dossier est déjà clôturé." };
     }
 
-    // Extraire les informations de consultation du dernier élément de la liste "consultations"
+    // Extraire les informations de consultation du dernier élément
     const lastConsultation = patient.consultations[patient.consultations.length - 1];
 
-    // Vérifier si le champ "pharmacy" est vide dans la prescription du dernier élément
-    if (lastConsultation.prescription && lastConsultation.prescription.length > 0) {
-      const lastPrescription = lastConsultation.prescription[lastConsultation.prescription.length - 1];
+    if (!lastConsultation) {
+      return { status: "fail", message: "Aucune consultation n'a été trouvée pour ce patient." };
+    }
 
-      if (!lastPrescription.pharmacy) {
-        // Mettre à jour le champ "pharmacy" avec la nouvelle donnée
-        lastPrescription.pharmacy = requestBody.newPharmacy;
+    // Extraire la liste de noms de prescriptions à mettre à jour
+    const prescriptionNamesToUpdate = requestBody.prescriptionNamesToUpdate;
+
+    // Extraire la nouvelle donnée à mettre dans le champ "pharmacy"
+    const newPharmacyData = requestBody.newPharmacyData;
+
+    // Parcourir les noms de prescriptions à mettre à jour
+    for (const prescriptionName of prescriptionNamesToUpdate) {
+      // Rechercher la prescription dans la dernière consultation
+      const prescriptionToUpdate = lastConsultation.prescription.find(
+        (prescription) => prescription.nom === prescriptionName
+      );
+
+      if (prescriptionToUpdate) {
+        // Mettre à jour le champ "pharmacy" si vide
+        if (!prescriptionToUpdate.pharmacy) {
+          prescriptionToUpdate.pharmacy = newPharmacyData;
+        }
       }
     }
 
     // Mettre à jour le patient dans la base de données
-    await patientCollection.updateOne({ _id: patient._id }, { $set: { consultations: patient.consultations } });
+    await patientCollection.updateOne(
+      { _id: patient._id },
+      { $set: { consultations: patient.consultations } }
+    );
 
     return { status: "success", message: "Prescription mise à jour avec succès." };
   } catch (error) {

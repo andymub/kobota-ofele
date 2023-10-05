@@ -1,8 +1,6 @@
 exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
-  //const bcrypt = globals.environment.get('bcrypt'); // Utilisez globals.get pour obtenir la bibliothèque "bcrypt"
-  const bcrypt = pm.globals.get('bcrypt');//changement mais elle commence à me gonfler cette fonctionnalité 
- 
+
   try {
     // Convertir le corps de la requête JSON en objet JavaScript
     const requestBody = JSON.parse(body.text());
@@ -15,26 +13,23 @@ exports = async function({ body }) {
     const user = await usersCollection.findOne({ email: email });
 
     if (user) {
-      // Utilisateur trouvé, vérifier le mot de passe crypté
-      const isPasswordMatch = await bcrypt.compare(password, user.passe);
-
-      if (isPasswordMatch) {
-        // Authentification réussie, retourner les données de l'utilisateur
-        delete user.passe; // Supprimez le mot de passe de la réponse pour des raisons de sécurité
+      // Utilisateur trouvé, vérifier le mot de passe
+      if (user.passe === password) {
+        // Authentification réussie, renvoyer tout le document de l'utilisateur
         return {
           status: 'success',
           user: user
         };
       } else {
         // Mot de passe incorrect, authentification échouée
-        return { status: 'fail' };
+        return { status: 'fail', message: 'Mot de passe incorrect.' };
       }
     } else {
       // Utilisateur non trouvé, authentification échouée
-      return { status: 'fail' };
+      return { status: 'fail', message: 'Utilisateur non trouvé.' };
     }
   } catch (error) {
     console.error("Erreur : " + error.message);
-    return { status: 'error', message: error.message }; // Retourner un message d'erreur
+    return { status: 'error', message: 'Erreur lors du traitement de la requête.' };
   }
 };

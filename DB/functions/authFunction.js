@@ -1,6 +1,6 @@
 exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
-  const bcrypt = require('bcrypt'); // Utilisez bcrypt pour le cryptage des mots de passe
+  const bcrypt = pm.globals.get('bcrypt'); // Utilisez bcrypt depuis la variable globale
 
   try {
     // Convertir le corps de la requête JSON en objet JavaScript

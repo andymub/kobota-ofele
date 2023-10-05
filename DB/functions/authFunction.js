@@ -1,7 +1,7 @@
 exports = async function({ body }) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
   //const bcrypt = globals.environment.get('bcrypt'); // Utilisez globals.get pour obtenir la bibliothèque "bcrypt"
-  const bcrypt = globals.get('bcrypt');//changement et test 
+  const bcrypt = pm.globals.get('bcrypt');//changement mais elle commence à me gonfler cette fonctionnalité 
  
   try {
     // Convertir le corps de la requête JSON en objet JavaScript

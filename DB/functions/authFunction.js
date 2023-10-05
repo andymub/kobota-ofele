@@ -18,7 +18,7 @@ exports = async function({ body }) {
       const isPasswordMatch = await bcrypt.compare(password, user.passe);
 
       if (isPasswordMatch) {
-        // Authentification réussie, retourner les données de l'utilisateur
+        // Authentification réussie, retourner les données de l'utilisateur (à l'exception du mot de passe)
         delete user.passe; // Supprimez le mot de passe de la réponse pour des raisons de sécurité
         return {
           status: 'success',

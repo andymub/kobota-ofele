@@ -10,8 +10,11 @@ exports = async function({ body }) {
         if (phone !== undefined) {
             const phoneNumber = phone.toString();
 
+            // Échapper le caractère "+" dans le numéro de téléphone
+            const escapedPhoneNumber = phoneNumber.replace("+", "\\+");
+
             // Effectuer la recherche insensible à la casse par numéro de téléphone dans la collection "Users"
-            const user = await usersCollection.findOne({ phone: { $regex: new RegExp(phoneNumber, 'i') } });
+            const user = await usersCollection.findOne({ phone: { $regex: new RegExp(escapedPhoneNumber, 'i') } });
 
             if (user) {
                 // Si un utilisateur correspondant est trouvé, le retourner

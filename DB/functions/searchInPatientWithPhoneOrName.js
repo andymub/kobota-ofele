@@ -10,7 +10,7 @@ exports = async function({ body }) {
     }
 
     // Vérifier si le paramètre ressemble à un numéro de téléphone
-    if (/^(?:\+243|00243)?\d{10}$/.test(phoneOrName)) {
+    if (/^(?:\+243|00243)?\d{14}$/.test(phoneOrName)) {
       // Recherche par numéro de téléphone
       const patientByPhone = await patientCollection.findOne({ phone: phoneOrName });
 

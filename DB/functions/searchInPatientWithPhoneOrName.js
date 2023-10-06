@@ -5,14 +5,11 @@ exports = async function({ body }) {
     const requestBody = JSON.parse(body.text());
     const phoneOrName = requestBody.phoneOrName;
 
-    if (!phoneOrName) {
-      return { status: 'fail', message: 'Le paramètre phoneOrName est manquant ou vide.' };
-    }
-
-    // Vérifier si le paramètre ressemble à un numéro de téléphone
-    if (/^(?:\+243|00243)?\d{14}$/.test(phoneOrName)) {
+    // Vérifier si la valeur ressemble à un numéro de téléphone
+    if (phoneOrName.match(/^\+?\d{10,}$/)) {
       // Recherche par numéro de téléphone
-      const patientByPhone = await patientCollection.findOne({ phone: phoneOrName });
+      const phoneNumber = phoneOrName.replace(/^\+/, ""); // Supprimer le préfixe "+", s'il existe
+      const patientByPhone = await patientCollection.findOne({ phone: phoneNumber });
 
       if (patientByPhone) {
         return { status: 'success', patient: patientByPhone };

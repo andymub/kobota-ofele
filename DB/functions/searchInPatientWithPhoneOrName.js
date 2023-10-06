@@ -7,8 +7,9 @@ exports = async function({ body }) {
 
     // Vérifier si la valeur ressemble à un numéro de téléphone
     if (phoneOrName.match(/^\+?\d{10,}$/)) {
+      // Supprimer le préfixe "+" s'il existe
+      const phoneNumber = phoneOrName.replace(/^\+/, "");
       // Recherche par numéro de téléphone
-      const phoneNumber = phoneOrName.replace(/^\+/, ""); // Supprimer le préfixe "+", s'il existe
       const patientByPhone = await patientCollection.findOne({ phone: phoneNumber });
 
       if (patientByPhone) {

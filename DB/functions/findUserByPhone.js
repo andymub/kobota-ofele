@@ -14,7 +14,7 @@ exports = async function({ body }) {
             const escapedPhoneNumber = phoneNumber.replace("+", "\\+");
 
             // Effectuer la recherche insensible à la casse par numéro de téléphone dans la collection "Users"
-            const user = await usersCollection.findOne({ phone: { $regex: new RegExp(escapedPhoneNumber, 'i') } });
+            const user = await usersCollection.findOne({ phone: { $regex: `^${escapedPhoneNumber}$`, $options: 'i' } });
 
             if (user) {
                 // Si un utilisateur correspondant est trouvé, le retourner

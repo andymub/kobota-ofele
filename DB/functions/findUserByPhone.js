@@ -8,12 +8,12 @@ exports = async function({ query }) {
         // Vérifier si "phone" est défini avant de le convertir en chaîne de caractères
         if (phone !== undefined) {
             const phoneNumber = phone.toString();
-            
+
             // Afficher le numéro de téléphone recherché
             console.log("Recherche de l'utilisateur par numéro de téléphone : " + phoneNumber);
 
-            // Effectuer la recherche par numéro de téléphone dans la collection "Users"
-            const user = await usersCollection.findOne({ phone: phoneNumber });
+            // Effectuer la recherche insensible à la casse par numéro de téléphone dans la collection "Users"
+            const user = await usersCollection.findOne({ phone: { $regex: new RegExp(phoneNumber, 'i') } });
 
             if (user) {
                 // Si un utilisateur correspondant est trouvé, le retourner

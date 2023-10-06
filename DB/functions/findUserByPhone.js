@@ -1,9 +1,9 @@
-exports = async function({ query }) {
+exports = async function({ body }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
-        // Extraire le numéro de téléphone de la requête (query)
-        const phone = query.phone;
+        // Extraire le numéro de téléphone du corps de la requête (body)
+        const phone = body.phone;
 
         // Vérifier si "phone" est défini avant de le convertir en chaîne de caractères
         if (phone !== undefined) {

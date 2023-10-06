@@ -2,15 +2,13 @@ exports = async function({ body }) {
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
     try {
-        // Extraire le numéro de téléphone du corps de la requête (body)
-        const phone = body.phone;
+        // Extraire le numéro de téléphone du corps de la requête JSON
+        const requestBody = JSON.parse(body.text());
+        const phone = requestBody.phone;
 
         // Vérifier si "phone" est défini avant de le convertir en chaîne de caractères
         if (phone !== undefined) {
             const phoneNumber = phone.toString();
-
-            // Afficher le numéro de téléphone recherché
-            console.log("Recherche de l'utilisateur par numéro de téléphone : " + phoneNumber);
 
             // Effectuer la recherche insensible à la casse par numéro de téléphone dans la collection "Users"
             const user = await usersCollection.findOne({ phone: { $regex: new RegExp(phoneNumber, 'i') } });

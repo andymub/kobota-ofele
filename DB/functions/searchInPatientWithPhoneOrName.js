@@ -17,6 +17,15 @@ exports = async function({ body }) {
       } else {
         return { status: 'fail', message: 'Aucun patient trouvé avec ce numéro de téléphone.' };
       }
+    } else if (phoneOrName.match(/\d+/) && phoneOrName.length < 14) {
+      // Recherche par numéro de téléphone sans préfixe "+"
+      const patientByDigits = await patientCollection.findOne({ phone: phoneOrName });
+
+      if (patientByDigits) {
+        return { status: 'success', patient: patientByDigits };
+      } else {
+        return { status: 'fail', message: 'Aucun patient trouvé avec ce numéro de téléphone ou ce nom.' };
+      }
     } else {
       // Recherche par nom
       const patientByName = await patientCollection.findOne({ name: phoneOrName });

@@ -18,7 +18,7 @@ exports = async function({ body }) {
       // User found, check the password
       if (user.passe === password) {
         // Password is correct, generate a JWT token
-        const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';
+        const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';//j'ai mis les deux pour tester 
         //const secretKey = 'signKey';
         const token = jwt.sign(
           {

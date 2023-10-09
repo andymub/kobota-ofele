@@ -12,7 +12,7 @@ exports = async function (payload, response) {
     }
 
     // Replace 'your_public_key_or_jwk_here' with your actual public key or JWK
-    const publicKey = 'your_public_key_or_jwk_here';
+    const publicKey = 'kobotaofele_signkey';
 
     // Verify the JWT token using the public key or JWK
     const decoded = jwt.verify(token, publicKey);

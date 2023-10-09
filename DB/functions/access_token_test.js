@@ -18,12 +18,13 @@ exports = async function({ body }) {
       // User found, check the password
       if (user.passe === password) {
         // Password is correct, generate a JWT token
+        const secretKey = 'UWaNHq1sR+3HEYyrcqO1MLa4zgtR9mYHW/wRYNsBzKRlqBMUD8U3sLUS0+j2RsN2tfNV4rQhhxfcmNmDldk94EOtDiAxg8By6YUod0fXIgWGykeb7VYg5s/NzS1UTTe8Fj7ddB522HwR3iCz97sF3H2oUW0MFYtJr9eF61MG+ZHbaw4FWeqGwqc9W0is/Q4ceLzBR3ndS+gsT/5sdMVpAt+oVa0Z08WG0BCRJrFyJhcxOkC2UGGGQVxcGUHS/ICP5zgWcOp3/iDswC6MBkl3W1T4BFmGyrBhjArGWaCwo2ae0/Z0rvSkeERgF4+AMFNRIjAYEcERFUhG1kgwL1/vAw=='; // Mettez à jour avec votre véritable clé secrète
         const token = jwt.sign(
           {
             sub: user._id.toString(), // User's unique identifier
             // Add any additional claims here
           },
-          kobotaofele_signkey1, // Replace with your secret key for signing the token
+          secretKey, // Utilisez la variable de la clé secrète ici
           { expiresIn: '1h' } // Token expiration time
         );
 

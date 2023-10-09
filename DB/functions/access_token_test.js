@@ -23,7 +23,7 @@ exports = async function({ body }) {
             sub: user._id.toString(), // User's unique identifier
             // Add any additional claims here
           },
-          kobotaofele_signkey, // Replace with your secret key for signing the token
+          kobotaofele_signkey1, // Replace with your secret key for signing the token
           { expiresIn: '1h' } // Token expiration time
         );
 

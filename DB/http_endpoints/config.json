@@ -213,7 +213,7 @@
         "http_method": "POST",
         "function_name": "access_token_test",
         "validation_method": "SECRET_AS_QUERY_PARAM",
-        "secret_name": "kobotaofele_signkey",
+        "secret_name": "kobotaofele_signkey1",
         "respond_result": true,
         "fetch_custom_user_data": false,
         "create_user_on_auth": false,

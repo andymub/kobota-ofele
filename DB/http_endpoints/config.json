@@ -212,7 +212,7 @@
         "route": "/access_token_test",
         "http_method": "POST",
         "function_name": "access_token_test",
-        "validation_method": "VERIFY_PAYLOAD",
+        "validation_method": "SECRET_AS_QUERY_PARAM",
         "secret_name": "signKey",
         "respond_result": true,
         "fetch_custom_user_data": true,

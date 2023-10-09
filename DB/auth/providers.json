@@ -10,7 +10,7 @@
         "config": {
             "audience": [],
             "requireAnyAudience": false,
-            "signingAlgorithm": "RS256",
+            "signingAlgorithm": "HS256",
             "useJWKURI": false
         },
         "secret_config": {

@@ -112,5 +112,11 @@
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "access_token_test",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
     }
 ]

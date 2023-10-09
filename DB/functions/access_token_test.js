@@ -1,33 +1,47 @@
-// Import necessary modules
 const jwt = require('jsonwebtoken');
 
-exports = async function (payload, response) {
+exports = async function({ body }) {
+  const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+
   try {
-    // Get the JWT token from the request headers
-    const token = context.request.headers.authorization;
+    // Convert the JSON request body to a JavaScript object
+    const requestBody = JSON.parse(body.text());
 
-    if (!token) {
-      // If no token is provided, return an error response
-      return response.setStatusCode(401).send('Unauthorized');
-    }
+    // Extract the email and password from the request body
+    const email = requestBody.email;
+    const password = requestBody.password;
 
-    // Replace 'your_public_key_or_jwk_here' with your actual public key or JWK
-    const publicKey = 'kobotaofele_signkey';
+    // Search for the user by email
+    const user = await usersCollection.findOne({ email: email });
 
-    // Verify the JWT token using the public key or JWK
-    const decoded = jwt.verify(token, publicKey);
+    if (user) {
+      // User found, check the password
+      if (user.passe === password) {
+        // Password is correct, generate a JWT token
+        const token = jwt.sign(
+          {
+            sub: user._id.toString(), // User's unique identifier
+            // Add any additional claims here
+          },
+          'kobotaofele_signkey', // Replace with your secret key for signing the token
+          { expiresIn: '1h' } // Token expiration time
+        );
 
-    // Here, you can add custom logic to check if the user is valid based on the token's claims.
-
-    // If the token is valid, return an authentication result
-    return {
-      customData: {
-        userId: decoded.sub,
-        // Add any custom claims or user data here
+        // Authentication successful, return the JWT token
+        return {
+          status: 'success',
+          token: token
+        };
+      } else {
+        // Incorrect password, authentication failed
+        return { status: 'fail', message: 'Incorrect password.' };
       }
-    };
+    } else {
+      // User not found, authentication failed
+      return { status: 'fail', message: 'User not found.' };
+    }
   } catch (error) {
-    // If there's an error (e.g., token validation fails), return an error response
-    return response.setStatusCode(401).send('Unauthorized');
+    console.error("Error: " + error.message);
+    return { status: 'error', message: 'Error processing the request.' };
   }
 };

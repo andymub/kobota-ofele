@@ -18,7 +18,7 @@
                 "kobotaofele_signkey"
             ]
         },
-        "disabled": true
+        "disabled": false
     },
     "local-userpass": {
         "name": "local-userpass",

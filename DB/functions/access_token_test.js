@@ -1,7 +1,5 @@
 // Import necessary modules
-
 const jwt = require('jsonwebtoken');
-
 
 exports = async function (payload, response) {
   try {
@@ -13,8 +11,10 @@ exports = async function (payload, response) {
       return response.setStatusCode(401).send('Unauthorized');
     }
 
-    // Verify the JWT token using the public key or JWK
+    // Replace 'your_public_key_or_jwk_here' with your actual public key or JWK
     const publicKey = 'your_public_key_or_jwk_here';
+
+    // Verify the JWT token using the public key or JWK
     const decoded = jwt.verify(token, publicKey);
 
     // Here, you can add custom logic to check if the user is valid based on the token's claims.

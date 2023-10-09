@@ -18,8 +18,7 @@ exports = async function({ body }) {
       // User found, check the password
       if (user.passe === password) {
         // Password is correct, generate a JWT token
-       // const secretKey = ''; // Mettez à jour avec votre véritable clé secrète
-       const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';
+        const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';
 
         const token = jwt.sign(
           {

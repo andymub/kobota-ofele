@@ -210,7 +210,7 @@
     },
     {
         "route": "/access_token_test",
-        "http_method": "POST",
+        "http_method": "GET",
         "function_name": "access_token_test",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,

@@ -213,7 +213,7 @@
         "http_method": "POST",
         "function_name": "access_token_test",
         "validation_method": "SECRET_AS_QUERY_PARAM",
-        "secret_name": "signKey",
+        "secret_name": "key",
         "respond_result": true,
         "fetch_custom_user_data": true,
         "create_user_on_auth": false,

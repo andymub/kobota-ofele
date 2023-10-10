@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+//salut jos , tu peux jeter un coup d'oeil sur cette fonction et son endPoint, ils ont le même nom 
 exports = async function (email, password) {
   const usersCollection = context.services
     .get("mongodb-atlas")
@@ -16,7 +16,7 @@ exports = async function (email, password) {
         sub: user._id.toString(),
         // Ajoutez d'autres claims personnalisés ici si nécessaire
       },
-      '2f75f2026b167d8c246761e71b81d539839fdc8d8cade94846691b59315d84df637dc458355d9812ba4cf49e71fd1af302ecca4167c8b56bcbe61ac935a64a36', // Remplacez par votre clé secrète
+      '2f75f2026b167d8c246761e71b81d539839fdc8d8cade94846691b59315d84df637dc458355d9812ba4cf49e71fd1af302ecca4167c8b56bcbe61ac935a64a36', // par ici,vous remplacez par votre clé secrète
       { expiresIn: '1h' } // Durée de validité du token
     );
 

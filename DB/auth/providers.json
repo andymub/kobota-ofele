@@ -15,7 +15,7 @@
         },
         "secret_config": {
             "signingKeys": [
-                "signKey"
+                "kobotaKey"
             ]
         },
         "disabled": false

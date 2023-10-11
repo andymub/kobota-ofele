@@ -123,5 +123,11 @@
         "private": false,
         "run_as_user_id_script_source": "exports = function(user) {\n  return jwt.sign(\n    {\n      _id: user._id,\n      name: user.name,\n      email: user.email,\n      isAdmin: user.isAdmin\n    },\n\n    process.env.JWT_SECRET,\n    {\n      expiresIn: '30d',\n    }\n  )\n};",
         "disable_arg_logs": true
+    },
+    {
+        "name": "isAuth",
+        "private": false,
+        "run_as_user_id_script_source": "exports = function(user) {\n  return jwt.sign(\n    {\n      _id: user._id,\n      name: user.name,\n      email: user.email,\n      isAdmin: user.isAdmin\n    },\n\n    process.env.JWT_SECRET,\n    {\n      expiresIn: '30d',\n    }\n  )\n};",
+        "disable_arg_logs": true
     }
 ]

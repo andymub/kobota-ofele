@@ -18,7 +18,7 @@ exports = async function({ body }) {
       // User found, check the password
       if (user.passe === password) {
         // Password is correct, generate a JWT token
-        const secretKey = '2f75f2026b167d8c246761e71b81d539839fdc8d8cade94846691b59315d84df637dc458355d9812ba4cf49e71fd1af302ecca4167c8b56bcbe61ac935a64a36'; // Mettez à jour avec votre véritable clé secrète
+        const secretKey = kobotaKey; // Mettez à jour avec votre véritable clé secrète
 
         const token = jwt.sign(
           {

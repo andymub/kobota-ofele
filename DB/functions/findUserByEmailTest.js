@@ -2,7 +2,6 @@ exports = async function(email) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
   
   try {
-    // Recherche d'un utilisateur par e-mail
     // Recherche d'un utilisateur par e-mail (en utilisant la méthode de recherche insensible à la casse)
     const user = await usersCollection.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
     

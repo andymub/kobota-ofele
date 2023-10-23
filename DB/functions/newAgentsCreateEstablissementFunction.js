@@ -40,7 +40,7 @@ exports = async function (managerId, agentId, body) {
         service: 'votre_service_email', // Ex: 'Gmail' pour notre cas , c'est notre nom de domaine
         auth: {
           user: 'votre_email', //mettre email du projet
-          pass: 'votre_mot_de_passe_email' //le password aussi 
+          pass: 'votre_mot_de_passe_email' //le password 
         }
       });
 

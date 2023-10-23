@@ -12,7 +12,7 @@ exports = async function(passedEmail) {
       // Si un utilisateur avec cet e-mail est trouvé, retournez-le
       return user;
     } else {
-      return { message: "Aucun utilisateur trouvé avec l'e-mail recherché : " + passedEmail };
+      return { message: "Aucun utilisateur trouvé avec l'e-mail recherché : " + passedEmail.toString() };
     }
   } catch (error) {
     console.error("Erreur : " + error.message);

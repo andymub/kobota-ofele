@@ -7,7 +7,6 @@ exports = async function(email, password) {
 
     if (user) {
       if (user.passe === password) {
-        // Assurez-vous de stocker correctement votre clé secrète, ne la mettez pas directement dans le code.
         //const secretKey = 'votre_clé_secrète'; 
         const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f'; 
 

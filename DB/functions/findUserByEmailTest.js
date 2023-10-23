@@ -6,13 +6,13 @@ exports = async function(passedEmail) {
     const email = typeof passedEmail === 'string' ? passedEmail : passedEmail.toString();
     
     // Recherche d'un utilisateur par e-mail (sensible à la casse)
-    const user = await usersCollection.findOne({ email: passedEmail });
+    const user = await usersCollection.findOne({ email: email });
     
     if (user) {
       // Si un utilisateur avec cet e-mail est trouvé, retournez-le
       return user;
     } else {
-      return { message: "Aucun utilisateur trouvé avec l'e-mail recherché : " + passedEmail.toString() +" 4" };
+      return { message: "Aucun utilisateur trouvé avec l'e-mail recherché : " + email };
     }
   } catch (error) {
     console.error("Erreur : " + error.message);

@@ -206,5 +206,11 @@
         "name": "newListAllEtablishmentFunction",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "findUserByEmailTest",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
     }
 ]

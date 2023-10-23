@@ -32,7 +32,7 @@ exports = async function createUser(email, user_name, fonction) {
       // Ici, je suppose que via ton idéejos , tu voulais utiliser un service tiers qui envoie des e-mails.
       // Configurez le service d'e-mails  et remplacez les valeurs ci-dessous par celui de l'Email du domaine du projet .
 
-      const emailService = context.services.get("your-email-service"); //ici , mettre le service si c'était gmail , on mettrait Gmail
+      const emailService = context.services.get("your-email-service"); //ici , mettre le service si c'était gmail , on mettrait 'smtp.gmail.com'
       emailService.send({
         to: email,
         from: "votre_email", //par ici , vous allez mettre l'email du projet kobota, je ne sais pas si Balkis l'a déjà , bref ....

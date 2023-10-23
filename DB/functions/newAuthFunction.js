@@ -37,7 +37,7 @@ exports = async function(email, password) {
       return { status: 'fail', message: 'Utilisateur non trouvé.' };
     }
   } catch (error) {
-    console.error("Erreur : " + error.message);
+    console.error("Erreur : " + (error ? error.message : 'error is undefined'));
     return { status: 'error', message: 'Erreur lors du traitement de la requête.' + (error ? error.message : '') };
   }
 }

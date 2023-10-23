@@ -10,7 +10,7 @@ exports = async function(email, password) {
         //const secretKey = 'votre_clé_secrète'; 
         const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f'; 
 
-        const token = jwt.sign(
+        /*const token = jwt.sign(
           {
             sub: user._id.toString(),
             email: user.email,
@@ -20,7 +20,7 @@ exports = async function(email, password) {
           },
           secretKey,
           { expiresIn: '30d' }
-        );
+        );*/
 
         return {
           status: 'success',
@@ -28,7 +28,7 @@ exports = async function(email, password) {
           user_name: user.user_name,
           fonction: user.fonction,
           access: user.validation_acces,
-          token: token
+         // token: token
         };
       } else {
         return { status: 'fail', message: 'Mot de passe incorrect.' };

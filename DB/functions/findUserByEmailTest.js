@@ -3,7 +3,8 @@ exports = async function(email) {
   
   try {
     // Recherche d'un utilisateur par e-mail
-    const user = await usersCollection.findOne({ email: email });
+    // Recherche d'un utilisateur par e-mail (en utilisant la méthode de recherche insensible à la casse)
+    const user = await usersCollection.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
     
     if (user) {
       // Si un utilisateur avec cet e-mail est trouvé, retournez-le

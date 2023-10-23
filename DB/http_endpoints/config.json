@@ -322,7 +322,7 @@
     {
         "route": "/newAdminCreateUsers",
         "http_method": "POST",
-        "function_name": "newAdminCreateUsers",
+        "function_name": "newAdminCreateUsersFunction",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,
         "fetch_custom_user_data": false,

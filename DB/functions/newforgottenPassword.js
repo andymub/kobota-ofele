@@ -12,7 +12,7 @@ exports = async function(changeEvent) {
 
       // Configurez l'e-mail à envoyer
       const fromEmail = "votre@email.com"; // nous dévons avoir l'adress e-mail demandé dans le commentaire de la fonction 
-//createuser 
+//createuser ; on mettra le même ici 
       const toEmail = user.email; // Adresse e-mail de l'utilisateur
       const subject = "Réinitialisation de mot de passe";
       const resetPasswordLink = `https://votre-site.com/reset-password?token=${jwtToken}`;

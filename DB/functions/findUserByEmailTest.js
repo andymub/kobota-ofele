@@ -1,5 +1,10 @@
 exports = async function(passedEmail) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+
+  // Assurez-vous que passedEmail est une chaîne de caractères (string)
+  if (typeof passedEmail !== 'string') {
+    return { message: "L'e-mail passé n'est pas une chaîne de caractères valide." };
+  }
   
   try {
     // Recherche d'un utilisateur par e-mail (sensible à la casse)

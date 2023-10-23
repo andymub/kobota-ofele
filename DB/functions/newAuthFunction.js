@@ -38,6 +38,6 @@ exports = async function(email, password) {
     }
   } catch (error) {
     console.error("Erreur : " + error.message);
-    return { status: 'error', message: 'Erreur lors du traitement de la requête.'+ error.message };
+    return { status: 'error', message: 'Erreur lors du traitement de la requête.' + (error ? error.message : '') };
   }
 }

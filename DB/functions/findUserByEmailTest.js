@@ -3,7 +3,7 @@ exports = async function(passedEmail) {
   
   try {
     // Vérifiez si passedEmail est une chaîne de caractères, sinon, convertissez-le
-    const email = typeof passedEmail === 'string' ? passedEmail : passedEmail.toString();
+    const email = (typeof passedEmail === 'string') ? passedEmail : passedEmail.toString();
     
     // Recherche d'un utilisateur par e-mail (sensible à la casse)
     const user = await usersCollection.findOne({ email: email });

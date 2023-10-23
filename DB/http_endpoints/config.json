@@ -254,7 +254,7 @@
         "return_type": "JSON"
     },
     {
-        "route": "/newupdateUser",
+        "route": "/newUpdateUser",
         "http_method": "PUT",
         "function_name": "newupdateUserFunction",
         "validation_method": "NO_VALIDATION",

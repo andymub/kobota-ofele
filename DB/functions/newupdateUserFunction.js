@@ -1,10 +1,12 @@
+//cette fonction est aussi utiliser pour le changement de password du user , commentaire dans la fonction NewupdateUser 
 exports = async function (jwtToken, body) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
   // Vérifier si l'utilisateur existe
   const user = jwt.decode(jwtToken); // Décoder le JWT pour obtenir les données de l'utilisateur
 
-  if (!user) {
+  if (!user) //si user existe 
+  {
     return { message: "Utilisateur introuvable. JWT invalide." };
   }
 

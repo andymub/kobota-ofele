@@ -1,1 +1,1 @@
-{"dependencies":{"jsonwebtoken":"9.0.2"}}
+{"dependencies":{"jsonwebtoken":"9.0.2","nodemailer":"6.9.7"}}

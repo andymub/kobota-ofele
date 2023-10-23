@@ -168,6 +168,12 @@
     {
         "name": "newUpdateEstablishmentAgent",
         "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "newSearchEstablishmentFunction",
+        "private": false,
         "disable_arg_logs": true
     }
 ]

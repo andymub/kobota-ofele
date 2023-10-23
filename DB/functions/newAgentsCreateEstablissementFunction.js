@@ -37,7 +37,8 @@ exports = async function (managerId, agentId, body) {
       // Utilisez le service SMTP pour envoyer un e-mail
       // envoi d'e-mail configuration SMTP)
       const transporter = nodemailer.createTransport({
-        service: 'votre_service_email', // Ex: 'Gmail' pour notre cas , c'est notre nom de domaine
+        service: 'votre_service_email', //c'est notre nom de domaine
+        // exemple pour Gmail, nous utiliserons 'smtp.gmail.com'
         auth: {
           user: 'votre_email', //mettre email du projet
           pass: 'votre_mot_de_passe_email' //le password 

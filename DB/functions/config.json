@@ -164,5 +164,10 @@
         "name": "ListAllEstablishmentsAgentsFunction",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "newUpdateEstablishmentAgent",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

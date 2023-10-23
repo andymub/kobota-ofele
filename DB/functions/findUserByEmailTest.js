@@ -2,7 +2,7 @@ exports = async function(passedEmail) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
   
   try {
-    // Assurez-vous que passedEmail est une chaîne de caractères (string)
+    // Vérifiez si passedEmail est une chaîne de caractères, sinon, convertissez-le
     const email = typeof passedEmail === 'string' ? passedEmail : passedEmail.toString();
     
     // Recherche d'un utilisateur par e-mail (sensible à la casse)

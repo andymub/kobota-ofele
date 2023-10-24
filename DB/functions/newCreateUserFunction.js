@@ -1,5 +1,10 @@
-exports = async function createUser(email, user_name, role) {
-  // Générez un mot de passe aléatoire
+exports = async function createUser(email, user_name, role, phone) {
+  // Vérifier si le numéro de téléphone est vide
+  if (!phone) {
+    return { status: 'error', message: 'Numéro de téléphone introuvable' };
+  }
+
+  // Générer un mot de passe aléatoire
   const motDePasseAleatoire = genererMotDePasseAleatoire(6);
 
   try {
@@ -15,6 +20,7 @@ exports = async function createUser(email, user_name, role) {
       role: role, // Remplacement de "fonction" par "role"
       validation_acces: true,
       passe: motDePasseAleatoire,
+      phone: phone // Ajouter le numéro de téléphone ici également
     };
 
     await usersCollection.insertOne(nouvelUtilisateur);

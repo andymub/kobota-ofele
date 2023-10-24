@@ -4,7 +4,7 @@ exports = async function createUser(email, user_name, role, phone) {
     return { status: 'error', message: 'Numéro de téléphone introuvable' };
   }
 
-  // Générer un mot de passe aléatoire
+  // Générer un mot de passe aléatoire pour l'users , on supposer qu'il pourra le changer 
   const motDePasseAleatoire = genererMotDePasseAleatoire(6);
 
   try {

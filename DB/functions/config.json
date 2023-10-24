@@ -235,5 +235,10 @@
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "newlistAllConsultationEstaBlishementFunction",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

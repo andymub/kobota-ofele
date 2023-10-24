@@ -9,7 +9,7 @@ exports = async function createUser(email, user_name, role, phone) {
 
   try {
     // Obtenez l'ID de l'utilisateur créé
-    const userId = "remplacez_par_l_id_si_vous_en_avez_un"; // Vous devrez obtenir l'ID de l'utilisateur autrement
+    const userId = phone; // Vous devrez obtenir l'ID de l'utilisateur autrement
 
     // Ajoutez des données personnalisées à l'utilisateur
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");

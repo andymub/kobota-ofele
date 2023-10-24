@@ -1,16 +1,10 @@
 exports = async function createUser(email, user_name, role) {
   // Générez un mot de passe aléatoire
-  const motDePasseAleatoire = genererMotDePasseAleatoire();
+  const motDePasseAleatoire = genererMotDePasseAleatoire(6);
 
   try {
-    /* Utilisez les services d'authentification intégrés pour créer un utilisateur
-    const newUser = await context.services.auth.createUser({
-      email: email,
-      password: motDePasseAleatoire,
-    }); */
-
     // Obtenez l'ID de l'utilisateur créé
-    const userId = newUser.id;
+    const userId = "remplacez_par_l_id_si_vous_en_avez_un"; // Vous devrez obtenir l'ID de l'utilisateur autrement
 
     // Ajoutez des données personnalisées à l'utilisateur
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
@@ -25,23 +19,20 @@ exports = async function createUser(email, user_name, role) {
 
     await usersCollection.insertOne(nouvelUtilisateur);
 
-    // Envoyez un e-mail à l'utilisateur avec ses informations de connexion
-    if (['agent', 'admin'].includes(role)) {
-      // on peut utiliser un service d'e-mails tiers ou un service de notification pour envoyer des e-mails.
-      // Ici, je suppose que via ton idéejos, tu voulais utiliser un service tiers qui envoie des e-mails.
-      // Configurez le service d'e-mails et remplacez les valeurs ci-dessous par celui de l'Email du domaine du projet.
-
-      const emailService = context.services.get("your-email-service"); // Ici, mettre le service si c'était gmail, on mettrait 'smtp.gmail.com'
-      emailService.send({
-        to: email,
-        from: "votre_email", // Par ici, vous allez mettre l'e-mail du projet kobota, je ne sais pas si Balkis l'a déjà, bref...
-        subject: "Identifiants de connexion",
-        text: `Votre nom d'utilisateur est : ${email}\nVotre mot de passe temporaire est : ${motDePasseAleatoire}`,
-      });
-    }
-
     return { status: 'success', message: 'Utilisateur créé avec succès' };
   } catch (erreur) {
     return { status: 'error', message: 'Erreur lors de la création de l\'utilisateur.' };
   }
 };
+
+function genererMotDePasseAleatoire(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const passwordArray = [];
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    passwordArray.push(characters.charAt(randomIndex));
+  }
+
+  return passwordArray.join('');
+}

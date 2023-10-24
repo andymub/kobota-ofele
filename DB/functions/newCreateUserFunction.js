@@ -4,11 +4,11 @@ exports = async function createUser(email, user_name, fonction) {
   const motDePasseAleatoire ='111111';//for test only -genererMotDePasseAleatoire();
 
   try {
-    // Utilisez les services d'authentification intégrés pour créer un utilisateur
+    /* Utilisez les services d'authentification intégrés pour créer un utilisateur
     const newUser = await context.services.auth.createUser({
       email: email,
       password: motDePasseAleatoire,
-    });
+    });*/
 
     // Obtenez l'ID de l'utilisateur créé
     const userId = newUser.id;

@@ -1,3 +1,11 @@
+/*
+la fonction listAllClosedPatientFile réçoit l'id (num de téléphone)de l'établissement et 
+elle va rechercher dans la collection Establishmentn le document qui correspond, 
+dans son champs list_consultations; la fonction fait un compte de document clotûré, 
+voici la procédure , une document est dit clôturé si objet dans list_consultations dont le champ patient_name est égale au 
+champs 'phone' d'un document de la collection Patient et ce document(patient) doit impérativement avoir pour champs status 
+différent de vide ou null.  si status n'est pas vide, donc le document n'est pas enclore clôturé
+*/
 exports = async function(establishmentPhone) {
   const establishmentCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Establishment");
   const patientCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Patient");

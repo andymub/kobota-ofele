@@ -221,6 +221,13 @@
     {
         "name": "newgetUniquePatientsFunction",
         "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "newSearchpatientFunction",
+        "private": false,
+        "run_as_system": true,
         "disable_arg_logs": true
     }
 ]

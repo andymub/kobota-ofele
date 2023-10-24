@@ -1,15 +1,17 @@
+const nodemailer = require("nodemailer");
+
 exports = async function createUser(email, user_name, role, phone) {
   // Vérifier si le numéro de téléphone est vide
   if (!phone) {
     return { status: 'error', message: 'Numéro de téléphone introuvable' };
   }
 
-  // Générer un mot de passe aléatoire pour l'users , on supposer qu'il pourra le changer 
+  // Générer un mot de passe aléatoire
   const motDePasseAleatoire = genererMotDePasseAleatoire(6);
 
   try {
     // Obtenez l'ID de l'utilisateur créé
-    const userId = phone; // Vous devrez obtenir l'ID de l'utilisateur autrement
+    const userId = phone; // id = phoneNumber , dac jos ?
 
     // Ajoutez des données personnalisées à l'utilisateur
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
@@ -25,7 +27,30 @@ exports = async function createUser(email, user_name, role, phone) {
 
     await usersCollection.insertOne(nouvelUtilisateur);
 
-    return { status: 'success', message: 'Utilisateur créé avec succès' };
+    // Envoi de l'e-mail de bienvenue
+    const transporter = nodemailer.createTransport({
+      host: "mail.proastuces.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "no-reply@proastuces.com",
+        pass: "Pol€*2023"
+      }
+    });
+
+    const message = {
+      from: "no-reply@proastuces.com",
+      to: email,
+      subject: "Bienvenue sur notre plateforme",
+      text: `Bienvenue, ${user_name}!\nVotre nom d'utilisateur est : ${email}\nVotre mot de passe temporaire est : ${motDePasseAleatoire}`,
+      html: `<p>Bienvenue, ${user_name}!</p><p>Votre nom d'utilisateur est : ${email}</p><p>Votre mot de passe temporaire est : ${motDePasseAleatoire}</p>`
+    };
+
+    const info = await transporter.sendMail(message);
+
+    console.log("E-mail de bienvenue envoyé : %s", info.messageId);
+
+    return { status: 'success', message: 'Utilisateur créé avec succès et e-mail de bienvenue envoyé.' };
   } catch (erreur) {
     return { status: 'error', message: 'Erreur lors de la création de l\'utilisateur.' };
   }

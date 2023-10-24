@@ -28,6 +28,7 @@ exports = async function createUser(email, user_name, role, phone) {
     await usersCollection.insertOne(nouvelUtilisateur);
 
     // Envoi de l'e-mail de bienvenue
+    //TODO : A Changer pour email  prof de kobota
     const transporter = nodemailer.createTransport({
       host: "mail.proastuces.com",
       port: 465,
@@ -41,7 +42,7 @@ exports = async function createUser(email, user_name, role, phone) {
     const message = {
       from: "no-reply@proastuces.com",
       to: email,
-      subject: "Bienvenue sur notre plateforme",
+      subject: "Bienvenue sur notre plateforme kobota Ofele",
       text: `Bienvenue, ${user_name}!\nVotre nom d'utilisateur est : ${email}\nVotre mot de passe temporaire est : ${motDePasseAleatoire}`,
       html: `<p>Bienvenue, ${user_name}!</p><p>Votre nom d'utilisateur est : ${email}</p><p>Votre mot de passe temporaire est : ${motDePasseAleatoire}</p>`
     };

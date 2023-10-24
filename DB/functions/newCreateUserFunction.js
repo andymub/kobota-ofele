@@ -1,7 +1,7 @@
 // Créez la fonction createUser dans Realm
 exports = async function createUser(email, user_name, fonction) {
   // Générez un mot de passe aléatoire
-  const motDePasseAleatoire = genererMotDePasseAleatoire();
+  const motDePasseAleatoire ='111111';//for test only -genererMotDePasseAleatoire();
 
   try {
     // Utilisez les services d'authentification intégrés pour créer un utilisateur

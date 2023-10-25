@@ -2,14 +2,14 @@ exports = async function({ query, headers, body, response }) {
   const jwt = require('jsonwebtoken');
   const nodemailer = require("nodemailer");
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
-
+//setStatusCode 
   try {
     // Convertir le corps de la requête JSON en objet JavaScript
     const userEmail = JSON.parse(body.text());
 
     // Assurez-vous que le corps de la requête contient l'e-mail
     if (!userEmail.email) {
-      response.setStatusCode(400);
+     // response.setStatusCode(400);
       return { status: 'fail', message: 'Veuillez fournir une adresse e-mail.' };
     }
 
@@ -17,7 +17,7 @@ exports = async function({ query, headers, body, response }) {
 
     // Vérifier si l'e-mail est bien formé
     if (!validateEmail(email)) {
-      response.setStatusCode(400);
+      //response.setStatusCode(400);
       return { status: 'fail', message: 'Adresse e-mail invalide.' };
     }
 
@@ -39,11 +39,11 @@ exports = async function({ query, headers, body, response }) {
 
       return { status: 'success', message: 'Un nouveau mot de passe a été envoyé à votre adresse e-mail.' };
     } else {
-      response.setStatusCode(404);
+      //response.setStatusCode(404);
       return { status: 'fail', message: 'Cette adresse e-mail n\'est pas enregistrée dans le système.' };
     }
   } catch (error) {
-    response.setStatusCode(500);
+   // response.setStatusCode(500);
     console.error("Erreur : " + (error ? error.message : 'error is undefined'));
     return { status: 'error', message: 'Erreur lors du traitement de la requête.' + (error ? error.message : '') };
   }

@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer');
 exports = async function (adminId, newUser) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  // Vérification que les champs obligatoires sont présents dans le newUser
-  if (!newUser.user_name || !newUser.email || !newUser.role) {
+ // Vérification que les champs obligatoires sont présents dans newUser
+  if (!newUser || !newUser.user_name || !newUser.email || !newUser.role) {
     return { message: "Les champs user_name, email et role sont obligatoires." };
   }
 

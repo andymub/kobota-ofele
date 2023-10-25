@@ -2,9 +2,9 @@ exports = async function({ query, headers, body }) {
   const jwt = require('jsonwebtoken');
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  // Assurez-vous que le corps de la requête contient les champs email et password
-  if (!body.email || !body.password) {
-    return { status: 'fail', message: 'Veuillez fournir une adresse e-mail et un mot de passe.' };
+  // Assurez-vous que le corps de la requête contient les champs email, password et role
+  if (!body.email || !body.password || !body.role) {
+    return { status: 'fail', message: 'Veuillez fournir une adresse e-mail, un mot de passe et un rôle.' };
   }
 
   try {
@@ -19,7 +19,7 @@ exports = async function({ query, headers, body }) {
             sub: user._id.toString(),
             email: user.email,
             user_name: user.user_name,
-            fonction: user.fonction,
+            role: user.role, // Modifiez "role" au lieu de "fonction" si c'est le champ correct
             access: user.validation_acces
           },
           secretKey,
@@ -30,7 +30,7 @@ exports = async function({ query, headers, body }) {
           status: 'success',
           email: user.email,
           user_name: user.user_name,
-          fonction: user.fonction,
+          role: user.role, // Modifiez "role" au lieu de "fonction" ici aussi
           access: user.validation_acces,
           token: token
         };

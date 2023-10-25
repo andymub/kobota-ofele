@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 exports = async function({ query, headers, body, response }) {
   const jwt = require('jsonwebtoken');
   const nodemailer = require("nodemailer");

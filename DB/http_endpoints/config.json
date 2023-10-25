@@ -243,7 +243,7 @@
         "return_type": "JSON"
     },
     {
-        "route": "/forgottenPassword",
+        "route": "/newforgottenPassword",
         "http_method": "PATCH",
         "function_name": "newforgottenPassword",
         "validation_method": "NO_VALIDATION",

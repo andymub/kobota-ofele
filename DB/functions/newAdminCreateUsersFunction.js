@@ -4,9 +4,9 @@ exports = async function (adminId, newUser) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
   // Vérification que les champs obligatoires sont présents dans newUser
-  if (!newUser || !newUser.user_name || !newUser.email || !newUser.role) {
-    return { message: "Les champs user_name, email et role sont obligatoires." };
-  }
+ if (!newUser || !newUser.user_name || !newUser.email || !newUser.role) {
+  return { message: "Les champs user_name, email et role sont obligatoires." };
+}
 
   // Vérification que le numéro de téléphone (phone--id) n'est pas déjà utilisé
   if (newUser.phone) {

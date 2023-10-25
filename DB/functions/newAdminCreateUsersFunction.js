@@ -4,9 +4,19 @@ exports = async function (adminId, newuser_name, newuser_email, newuser_role, ne
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
   // Vérification que les champs obligatoires sont présents
-  if (!newuser_name || !newuser_email || !newuser_role) {
-    return { message: "Les champs newuser_name, newuser_email et newuser_role sont obligatoires." };
+if (!newuser_name || !newuser_email || !newuser_role) {
+  let missingFields = [];
+  if (!newuser_name) {
+    missingFields.push("newuser_name");
   }
+  if (!newuser_email) {
+    missingFields.push("newuser_email");
+  }
+  if (!newuser_role) {
+    missingFields.push("newuser_role");
+  }
+  return { message: `Les champs ${missingFields.join(', ')} sont obligatoires.` };
+}
 
 
   // Vérification que le numéro de téléphone (newuser_phone) n'est pas déjà utilisé

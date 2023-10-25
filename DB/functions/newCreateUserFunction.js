@@ -20,7 +20,7 @@ exports = async function({ query, headers, body }) {
   }
 
   // Générer un mot de passe aléatoire
-  const motDePasseAleatoire = genererMotDePasseAleatoire(6);
+  const motDePasseAleatoire = genererMotDePasseAleatoire(10);
 
   try {
     // Ajoutez des données personnalisées à l'utilisateur

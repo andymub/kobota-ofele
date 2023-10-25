@@ -9,12 +9,12 @@ if (!newuser_name || !newuser_email || !newuser_role) {
   if (!newuser_name) {
     missingFields.push("newuser_name");
   }
-  if (!newuser_email) {
-    missingFields.push("newuser_email");
-  }
-  if (!newuser_role) {
-    missingFields.push("newuser_role");
-  }
+  // if (!newuser_email) {
+  //   missingFields.push("newuser_email");
+  // }
+  // if (!newuser_role) {
+  //   missingFields.push("newuser_role");
+  // }
   return { message: `Les champs ${missingFields.join(', ')} sont obligatoires.` };
 }
 

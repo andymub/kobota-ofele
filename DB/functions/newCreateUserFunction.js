@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 
-exports = async function createUser(email, user_name, role) {
+exports = async function({ query, headers, body }, response) {
+  // Extraire les paramètres du corps de la requête
+  const { email, user_name, role } = body;
   console.log("Début de la fonction createUser");
   console.log("Paramètres reçus :");
   console.log("Email :", email);

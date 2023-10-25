@@ -8,11 +8,13 @@ exports = async function (adminId, newUser) {
     return { message: "Les champs user_name, email et role sont obligatoires." };
   }
 
-  // Vérification que l'email et le user_name ne sont pas déjà utilisés dans la collection User
-  const existingUser = await usersCollection.findOne({ $or: [{ email: newUser.email }, { user_name: newUser.user_name }] });
-  if (existingUser) {
-    return { message: "Un utilisateur avec le même email ou le même user_name existe déjà." };
-  }
+ 
+ // Vérification que le numéro de téléphone (phone--id) n'est pas déjà utilisé
+const existingUser = await usersCollection.findOne({ id: newUser.phone });
+if (existingUser) {
+  return { message: "Un utilisateur avec le même numéro de téléphone existe déjà." };
+}
+
 
   // Génération d'un mot de passe aléatoire s'il n'est pas fourni
   if (!newUser.passe) {

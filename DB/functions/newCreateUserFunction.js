@@ -1,19 +1,17 @@
 const nodemailer = require("nodemailer");
 
-exports = async function createUser(email, user_name, role, phone) {
-  //je vais voir ce que je passe ne paramètre 
-   console.log("Début de la fonction createUser");
+exports = async function createUser(email, user_name, role) {
+  console.log("Début de la fonction createUser");
   console.log("Paramètres reçus :");
   console.log("Email :", email);
   console.log("Nom d'utilisateur :", user_name);
   console.log("Rôle :", role);
-  console.log("Téléphone :", phone);
- if (!email || !user_name || !role || !phone) {
+
+  if (!email || !user_name || !role) {
     const missingFields = [];
     if (!email) missingFields.push("email");
     if (!user_name) missingFields.push("user_name");
     if (!role) missingFields.push("role");
-    if (!phone) missingFields.push("phone");
     const errorMessage = `Les champs suivants sont obligatoires : ${missingFields.join(", ")}`;
     return { status: 'error', message: errorMessage };
   }
@@ -29,8 +27,7 @@ exports = async function createUser(email, user_name, role, phone) {
       user_name: user_name,
       role: role,
       validation_acces: true,
-      passe: motDePasseAleatoire,
-      phone: phone
+      passe: motDePasseAleatoire
     };
 
     const result = await usersCollection.insertOne(nouvelUtilisateur);

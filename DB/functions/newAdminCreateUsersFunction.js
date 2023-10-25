@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-exports = async function createUser(adminId, email, user_name, role, phone) {
+exports = async function createUser(email, user_name, role, phone) {
   // Vérifier si le numéro de téléphone est vide
   if (!phone) {
     return { status: 'error', message: 'Numéro de téléphone introuvable' };
@@ -11,7 +11,7 @@ exports = async function createUser(adminId, email, user_name, role, phone) {
 
   try {
     // Obtenez l'ID de l'utilisateur créé
-    const userId = phone;
+    const userId = phone; // id = phoneNumber , dac jos ?
 
     // Ajoutez des données personnalisées à l'utilisateur
     const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
@@ -19,17 +19,16 @@ exports = async function createUser(adminId, email, user_name, role, phone) {
       _id: userId,
       email: email,
       user_name: user_name,
-      role: role,
+      role: role, // Remplacement de "fonction" par "role"
       validation_acces: true,
       passe: motDePasseAleatoire,
-      phone: phone,
-      createdBy: adminId // Champ createdBy avec l'adminId
+      phone: phone // Ajouter le numéro de téléphone ici également
     };
 
     await usersCollection.insertOne(nouvelUtilisateur);
 
     // Envoi de l'e-mail de bienvenue
-    //TODO : A Changer pour email prof de kobota
+    //TODO : A Changer pour email  prof de kobota
     const transporter = nodemailer.createTransport({
       host: "mail.proastuces.com",
       port: 465,

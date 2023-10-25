@@ -1,6 +1,13 @@
 const nodemailer = require("nodemailer");
 
 exports = async function createUser(email, user_name, role, phone) {
+  //je vais voir ce que je passe ne paramètre 
+   console.log("Début de la fonction createUser");
+  console.log("Paramètres reçus :");
+  console.log("Email :", email);
+  console.log("Nom d'utilisateur :", user_name);
+  console.log("Rôle :", role);
+  console.log("Téléphone :", phone);
  if (!email || !user_name || !role || !phone) {
     const missingFields = [];
     if (!email) missingFields.push("email");

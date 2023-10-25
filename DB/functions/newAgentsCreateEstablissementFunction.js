@@ -34,7 +34,7 @@ exports = async function({ query, headers, body }) {
     // L'établissement a été créé avec succès
 
     // Trouver le gérant dans la collection Users par ID (newEstablishment.agentId)
-    const manager = await usersCollection.findOne({ _id: BSON.ObjectID(newEstablishment.agentId) });
+    const manager = await usersCollection.findOne({ _id: BSON.ObjectID(agent._id) });
 
     if (manager && manager.email) {
       // Utilisez le service SMTP pour envoyer un e-mail

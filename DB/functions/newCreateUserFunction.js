@@ -1,9 +1,15 @@
 const nodemailer = require("nodemailer");
 
 exports = async function createUser(email, user_name, role, phone) {
-  if (!phone) {
-  return { status: 'error', message: `Numéro de téléphone introuvable. Paramètre 'phone' reçu : ${phone}` }; // il est où ce fichu phone .....
-}
+ if (!email || !user_name || !role || !phone) {
+    const missingFields = [];
+    if (!email) missingFields.push("email");
+    if (!user_name) missingFields.push("user_name");
+    if (!role) missingFields.push("role");
+    if (!phone) missingFields.push("phone");
+    const errorMessage = `Les champs suivants sont obligatoires : ${missingFields.join(", ")}`;
+    return { status: 'error', message: errorMessage };
+  }
 
   // Générer un mot de passe aléatoire
   const motDePasseAleatoire = genererMotDePasseAleatoire(6);

@@ -19,8 +19,8 @@ exports = async function (adminId, newUser) {
     newUser.passe = generateRandomPassword(6);
   }
 
-  // Vérification que newUser.phone existe et attribuez-le à newUser.id
-  if (newUser.phone) {
+   // Vérification que newUser.phone existe et attribuez-le à newUser.id
+  if (newUser.phone !== undefined) {
     newUser.id = newUser.phone;
   } else {
     return { message: "Le numéro de téléphone est introuvable." };

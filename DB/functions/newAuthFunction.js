@@ -2,16 +2,18 @@ exports = async function({ query, headers, body }) {
   const jwt = require('jsonwebtoken');
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  // Assurez-vous que le corps de la requête contient les champs email, password et role
-  if (!body.email || !body.password) {
-    return { status: 'fail', message: 'Veuillez fournir une adresse e-mail, un mot de passe et un rôle.' };
-  }
-
   try {
-    const user = await usersCollection.findOne({ email: body.email });
+    // Convertir le corps de la requête JSON en objet JavaScript
+    const authUser = JSON.parse(body.text());
+
+    if (!authUser.email || !authUser.password) {
+      return { status: 'fail', message: 'Veuillez fournir une adresse e-mail, un mot de passe et un rôle.' };
+    }
+
+    const user = await usersCollection.findOne({ email: authUser.email });
 
     if (user) {
-      if (user.passe === body.password) {
+      if (user.passe === authUser.password) {
         const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';
 
         const token = jwt.sign(
@@ -19,7 +21,7 @@ exports = async function({ query, headers, body }) {
             sub: user._id.toString(),
             email: user.email,
             user_name: user.user_name,
-            role: user.role, // Modifiez "role" au lieu de "fonction" si c'est le champ correct
+            role: user.role,
             access: user.validation_acces
           },
           secretKey,
@@ -30,7 +32,7 @@ exports = async function({ query, headers, body }) {
           status: 'success',
           email: user.email,
           user_name: user.user_name,
-          role: user.role, // Modifiez "role" au lieu de "fonction"
+          role: user.role,
           access: user.validation_acces,
           token: token
         };

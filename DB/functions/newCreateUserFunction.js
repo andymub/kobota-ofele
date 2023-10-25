@@ -1,10 +1,10 @@
 const nodemailer = require("nodemailer");
 
 exports = async function createUser(email, user_name, role, phone) {
-  // Vérifier si le numéro de téléphone est vide
   if (!phone) {
-    return { status: 'error', message: 'Numéro de téléphone introuvable' };
-  }
+  return { status: 'error', message: `Numéro de téléphone introuvable. Paramètre 'phone' reçu : ${phone}` };
+}
+
 
   // Générer un mot de passe aléatoire
   const motDePasseAleatoire = genererMotDePasseAleatoire(6);

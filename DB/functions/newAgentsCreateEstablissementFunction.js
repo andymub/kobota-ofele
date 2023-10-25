@@ -23,7 +23,7 @@ exports = async function({ query, headers, body }) {
     list_consultations: newEstablishment.list_consultations,
     validation_acces: true, // Mettre par défaut à true
     list_pharmacy: newEstablishment.list_pharmacy,
-    createdBy: agent._id, // L'utilisateur(agent) qui a ajouté cet établissement
+    //createdBy: agent._id, // L'utilisateur(agent) qui a ajouté cet établissement
     agent: agent._id, // Assurez-vous que le champ correct est utilisé
   };
 

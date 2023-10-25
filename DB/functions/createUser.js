@@ -29,6 +29,7 @@ exports = async function({ query, headers, body }, response) {
             }
         }
     } catch (error) {
+      response.setStatusCode(500); // Code de réponse HTTP 500 pour une erreur interne du serveur
         response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
         response.setBody(JSON.stringify({ message: `Erreur lors du traitement de la requête : ${error.message}` }));
     }

@@ -3,25 +3,25 @@ const nodemailer = require('nodemailer');
 exports = async function (adminId, newUser) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
- // Vérification que les champs obligatoires sont présents dans newUser
-  if (!newUser) {
+  // Vérification que les champs obligatoires sont présents dans newUser
+  if (!newUser || !newUser.user_name || !newUser.email || !newUser.role) {
     return { message: "Les champs user_name, email et role sont obligatoires." };
   }
 
- 
- // Vérification que le numéro de téléphone (phone--id) n'est pas déjà utilisé
-const existingUser = await usersCollection.findOne({ id: newUser.phone });
-if (existingUser) {
-  return { message: "Un utilisateur avec le même numéro de téléphone existe déjà." };
-}
-
+  // Vérification que le numéro de téléphone (phone--id) n'est pas déjà utilisé
+  if (newUser.phone) {
+    const existingUser = await usersCollection.findOne({ id: newUser.phone });
+    if (existingUser) {
+      return { message: "Un utilisateur avec le même numéro de téléphone existe déjà." };
+    }
+  }
 
   // Génération d'un mot de passe aléatoire s'il n'est pas fourni
   if (!newUser.passe) {
     newUser.passe = generateRandomPassword(6);
   }
 
-   // Vérification que newUser.phone existe et attribuez-le à newUser.id
+  // Vérification que newUser.phone existe et attribuez-le à newUser.id
   if (newUser.phone !== undefined) {
     newUser.id = newUser.phone;
   } else {

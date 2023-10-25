@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-exports = async function createUser(email, user_name, role, phone) {
+exports = async function createUser(email, user_name, role, phone,adminId) {
   // Vérifier si le numéro de téléphone est vide
   if (!phone) {
     return { status: 'error', message: 'Numéro de téléphone introuvable' };
@@ -22,7 +22,8 @@ exports = async function createUser(email, user_name, role, phone) {
       role: role, // Remplacement de "fonction" par "role"
       validation_acces: true,
       passe: motDePasseAleatoire,
-      phone: phone // Ajouter le numéro de téléphone ici également
+      phone: phone, // Ajouter le numéro de téléphone ici également
+      createdBy:adminId // qui est ID de l'amdin
     };
 
     await usersCollection.insertOne(nouvelUtilisateur);

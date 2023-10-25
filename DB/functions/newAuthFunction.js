@@ -7,6 +7,7 @@ exports = async function({ query, headers, body }) {
     const authUser = JSON.parse(body.text());
 
     if (!authUser.email || !authUser.password) {
+      response.setStatusCode(400); // Code de réponse HTTP 400 pour une requête incorrecte
       return { status: 'fail', message: 'Veuillez fournir une adresse e-mail, un mot de passe et un rôle.' };
     }
 
@@ -37,9 +38,11 @@ exports = async function({ query, headers, body }) {
          // token: token
         };
       } else {
+         response.setStatusCode(401); // Code de réponse HTTP 401 pour une authentification incorrecte
         return { status: 'fail', message: 'Mot de passe incorrect.' };
       }
     } else {
+      response.setStatusCode(404); // Code de réponse HTTP 404 pour utilisateur non trouvé
       return { status: 'fail', message: 'Utilisateur non trouvé.' };
     }
   } catch (error) {

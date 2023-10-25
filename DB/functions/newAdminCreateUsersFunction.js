@@ -1,35 +1,33 @@
 const nodemailer = require('nodemailer');
 
-exports = async function (adminId, newUser) {
+exports = async function (adminId, newuser_name, newuser_email, newuser_role, newuser_phone) {
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  // Vérification que les champs obligatoires sont présents dans newUser
- if (!newUser || !newUser.user_name || !newUser.email || !newUser.role) {
-  return { message: "Les champs user_name, email et role sont obligatoires." };
-}
+  // Vérification que les champs obligatoires ne sont pas vides
+  if (!newuser_name || !newuser_email || !newuser_role) {
+    return { message: "Les champs user_name, email et role sont obligatoires." };
+  }
 
-  // Vérification que le numéro de téléphone (phone--id) n'est pas déjà utilisé
-  if (newUser.phone) {
-    const existingUser = await usersCollection.findOne({ id: newUser.phone });
+  // Vérification que le numéro de téléphone (newuser_phone) n'est pas déjà utilisé
+  if (newuser_phone) {
+    const existingUser = await usersCollection.findOne({ id: newuser_phone });
     if (existingUser) {
       return { message: "Un utilisateur avec le même numéro de téléphone existe déjà." };
     }
   }
 
   // Génération d'un mot de passe aléatoire s'il n'est pas fourni
-  if (!newUser.passe) {
-    newUser.passe = generateRandomPassword(6);
-  }
-
-  // Vérification que newUser.phone existe et attribuez-le à newUser.id
-  if (newUser.phone !== undefined) {
-    newUser.id = newUser.phone;
-  } else {
-    return { message: "Le numéro de téléphone est introuvable." };
-  }
+  const newuser_password = generateRandomPassword(6);
 
   // Champ createdBy avec l'adminId
-  newUser.createdBy = adminId;
+  const newUser = {
+    user_name: newuser_name,
+    email: newuser_email,
+    role: newuser_role,
+    id: newuser_phone,
+    passe: newuser_password,
+    createdBy: adminId
+  };
 
   // Enregistrement du nouvel utilisateur
   const result = await usersCollection.insertOne(newUser);

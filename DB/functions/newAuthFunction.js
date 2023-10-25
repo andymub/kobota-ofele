@@ -1,16 +1,20 @@
-exports = async function(email, password) {
+exports = async function({ query, headers, body }) {
   const jwt = require('jsonwebtoken');
   const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
+  // Assurez-vous que le corps de la requête contient les champs email et password
+  if (!body.email || !body.password) {
+    return { status: 'fail', message: 'Veuillez fournir une adresse e-mail et un mot de passe.' };
+  }
+
   try {
-    const user = await usersCollection.findOne({ email: email });
+    const user = await usersCollection.findOne({ email: body.email });
 
     if (user) {
-      if (user.passe === password) {
-        //const secretKey = 'votre_clé_secrète'; 
-        const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f'; 
+      if (user.passe === body.password) {
+        const secretKey = '231a58b00632c9c4d8ac02b268ca4caf8dd48fd020e3dffa72666523d860988f';
 
-        /*const token = jwt.sign(
+        const token = jwt.sign(
           {
             sub: user._id.toString(),
             email: user.email,
@@ -20,7 +24,7 @@ exports = async function(email, password) {
           },
           secretKey,
           { expiresIn: '30d' }
-        );*/
+        );
 
         return {
           status: 'success',
@@ -28,7 +32,7 @@ exports = async function(email, password) {
           user_name: user.user_name,
           fonction: user.fonction,
           access: user.validation_acces,
-         // token: token
+          token: token
         };
       } else {
         return { status: 'fail', message: 'Mot de passe incorrect.' };

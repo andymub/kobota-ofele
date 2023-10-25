@@ -1,5 +1,5 @@
 //ListAllPatient-ayant un dossier valide
-exports = async function() {
+exports = async function({ query, headers, body }) {
   const patientsCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Patient");
 
 //rechercher uniquement les patients ayant un dossier valide , where status est vide ou inexistant 

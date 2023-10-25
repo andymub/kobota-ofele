@@ -1,4 +1,4 @@
-exports = async function () {
+exports = async function({ query, headers, body }) {
   const usersCollection = context.services
     .get("mongodb-atlas")
     .db("kobotaDB")

@@ -244,7 +244,7 @@
     },
     {
         "route": "/newforgottenPassword",
-        "http_method": "PATCH",
+        "http_method": "POST",
         "function_name": "newforgottenPassword",
         "validation_method": "NO_VALIDATION",
         "respond_result": true,

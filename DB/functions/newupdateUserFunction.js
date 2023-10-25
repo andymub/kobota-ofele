@@ -1,71 +1,33 @@
-//cette fonction est aussi utiliser pour le changement de password du user , commentaire dans la fonction NewupdateUser 
-exports = async function (jwtToken, body) {
-  const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
+exports = async function({ body, response }) {
+  try {
+    // Convertir le corps de la requête JSON en objet JavaScript
+    const { userEmail, newUser } = JSON.parse(body.text());
 
-  // Vérifier si l'utilisateur existe
-  const user = jwt.decode(jwtToken); // Décoder le JWT pour obtenir les données de l'utilisateur
+    // Accéder à la collection "Users"
+    const usersCollection = context.services.get("mongodb-atlas").db("kobotaDB").collection("Users");
 
-  if (!user) //si user existe 
-  {
-    return { message: "Utilisateur introuvable. JWT invalide." };
-  }
+    // Rechercher l'utilisateur par e-mail
+    const existingUser = await usersCollection.findOne({ email: userEmail });
 
-  // Vérifier si l'utilisateur existe dans la collection
-  const existingUser = await usersCollection.findOne({ _id: BSON.ObjectID(user.sub) });
-
-  if (!existingUser) {
-    return { message: "Utilisateur introuvable." };
-  }
-
-  // Vérifier que l'utilisateur actuel correspond à l'utilisateur à mettre à jour
-  if (user.sub !== existingUser._id.toString()) {
-    return { message: "Vous n'êtes pas autorisé à mettre à jour cet utilisateur." };
-  }
-
-  // Extraire les champs du corps de la requête
-  const { user_name, password, adress, fonction, validation_acces, work_adress, phone } = body;
-
-  // Vérifier si les champs ne sont pas vides ou nuls et les mettre à jour si nécessaire
-  if (user_name) {
-    existingUser.user_name = user_name;
-  }
-
-  if (password) {
-    existingUser.passe = password;
-  }
-
-  if (adress) {
-    if (adress.province) {
-      existingUser.adress.province = adress.province;
+    if (!existingUser) {
+      // Si l'utilisateur n'existe pas, renvoyez une réponse d'erreur
+      response.setStatusCode(404); // Code de réponse HTTP 404 (Non trouvé)
+      return { message: "Utilisateur non trouvé." };
     }
 
-    if (adress.ville) {
-      existingUser.adress.ville = adress.ville;
+    // Mettre à jour les données de l'utilisateur
+    const updateResult = await usersCollection.updateOne({ _id: existingUser._id }, { $set: newUser });
+
+    if (updateResult.matchedCount === 1) {
+      // La mise à jour a réussi
+      return { message: "Utilisateur mis à jour avec succès." };
+    } else {
+      // La mise à jour a échoué
+      response.setStatusCode(500); // Code de réponse HTTP 500 (Erreur interne du serveur)
+      return { message: "Échec de la mise à jour de l'utilisateur." };
     }
-
-    if (adress.commune) {
-      existingUser.adress.commune = adress.commune;
-    }
+  } catch (error) {
+    response.setStatusCode(400); // Code de réponse HTTP 400 (Mauvaise requête)
+    return { message: `Erreur lors du traitement de la requête : ${error.message}` };
   }
-
-  if (fonction) {
-    existingUser.fonction = fonction;
-  }
-
-  if (validation_acces != null) {
-    existingUser.validation_acces = validation_acces;
-  }
-
-  if (work_adress) {
-    existingUser.work_adress = work_adress;
-  }
-
-  if (phone) {
-    existingUser.phone = phone;
-  }
-
-  // Mettre à jour le document utilisateur
-  await usersCollection.updateOne({ _id: existingUser._id }, existingUser);
-
-  return { message: "Utilisateur mis à jour avec succès.", user: existingUser };
 };

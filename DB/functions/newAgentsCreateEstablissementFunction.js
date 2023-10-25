@@ -4,7 +4,7 @@ exports = async function({ query, headers, body }) {
 
   // Extraire les paramètres du corps de la requête
   const { agentEmail, newEstablishment } = body;
-
+//BSON
   // Vérifier si l'utilisateur avec l'email agentEmail est autorisé à ajouter un établissement
   const agent = await usersCollection.findOne({ email: agentEmail });
 
@@ -24,7 +24,7 @@ exports = async function({ query, headers, body }) {
     validation_acces: true, // Mettre par défaut à true
     list_pharmacy: newEstablishment.list_pharmacy,
     createdBy: agent._id, // L'utilisateur(agent) qui a ajouté cet établissement
-    agent: newEstablishment.agentId, // Assurez-vous que le champ correct est utilisé
+    agent: agent._id, // Assurez-vous que le champ correct est utilisé
   };
 
   // Insérer le nouvel établissement dans la collection Establishment
